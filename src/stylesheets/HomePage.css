@@ -1,0 +1,48 @@
+.HomePage {
+    display: flex;
+    align-items: flex-start;
+    gap: 6rem;
+    flex-wrap: wrap;
+    margin: 130px 50px 0 50px;
+}
+
+.HomePage h2 {
+    width: 100%;
+    padding: 5px;
+    font-size: 2rem;
+    text-align: center;
+    background: var(--yellow);
+}
+
+.HomePage table {
+    width: 100%;
+    text-align: center;
+}
+
+.HomePage table thead {
+    background: var(--blue);
+}
+
+.HomePage table tr {
+    cursor: pointer;
+    border: 1px solid var(--slate-700);
+}
+
+.HomePage table, th, td {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-collapse: collapse;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.HomePage .btn.client {
+    margin-top: 20px;
+}
+
+.HomePage .provider table {
+    text-align: left;
+}
+
+.HomePage .provider table tr {
+    cursor: auto;
+}

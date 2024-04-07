@@ -1,0 +1,78 @@
+.HistoryPage {
+    margin: 150px 50px;
+    display: flex;
+    align-items: flex-start;
+    gap: 5rem;
+}
+
+.HistoryPage table {
+    width: 700px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.HistoryPage table th,
+.HistoryPage table td {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid var(--slate-700);
+    padding: 8px;
+    text-align: center;
+}
+
+.HistoryPage table td:nth-child(2):not(:last-child) {
+    text-align: left;
+}
+
+.HistoryPage table .total {
+    text-align: left;
+    font-weight: bold;
+}
+
+.HistoryPage table .total_amount {
+    font-weight: bold;
+}
+
+.HistoryPage table th {
+    background-color: var(--slate-300);
+
+}
+
+.HistoryPage tr:hover {
+    background-color: var(--light-yellow);
+}
+
+.HistoryPage .years {
+    background: lightgoldenrodyellow;
+    position: relative;
+}
+
+.HistoryPage .years .years_title {
+    font-size: 1.2rem;
+}
+
+.HistoryPage .years .years_container {
+    background: red;
+    user-select: none;
+    position: absolute;
+    top: 120%;
+    left: 0;
+    width: 350px;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    border: 1px solid;
+    background: var(--light-yellow);
+    box-shadow: .1rem .2rem .5rem var(--slate-700);
+}
+
+.HistoryPage .years .years_container p {
+    padding: 5px;
+    font-size: 1.3rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.HistoryPage .years .years_container p:hover {
+    background: var(--slate-300);
+    cursor: pointer;
+}

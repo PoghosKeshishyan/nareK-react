@@ -1,0 +1,33 @@
+.ContextMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 130%;
+    background-color: var(--white);
+    border: 1px solid var(--slate-300);
+    box-shadow: 0px 2px 4px var(--alpha-slate);
+    border-radius: 6px;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.ContextMenu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ContextMenu ul li {
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Lucida Sans';
+    color: var(--slate-700);
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.ContextMenu ul li:hover {
+    background-color: var(--slate-200);
+}

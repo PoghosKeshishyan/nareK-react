@@ -1,0 +1,198 @@
+.SendEmailPage {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 100px;
+}
+
+.SendEmailPage .btn.back {
+    position: fixed;
+    z-index: 1001;
+    top: 3%;
+    right: 8.5%;
+    width: 120px;
+    text-align: center;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.SendEmailPage .btn.home {
+    position: fixed;
+    z-index: 1001;
+    top: 8%;
+    right: 8.5%;
+    width: 120px;
+    text-align: center;
+}
+
+.SendEmailPage form {
+    margin: 50px 40px;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.SendEmailPage form .form_item p,
+.SendEmailPage form .form_item input,
+.SendEmailPage form .form_item textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 2px solid;
+}
+
+.SendEmailPage form .form_item {
+    display: flex;
+    flex-direction: column;
+}
+
+.SendEmailPage form .form_item textarea {
+    resize: none;
+    height: 45px;
+    border: none;
+}
+
+.SendEmailPage form textarea.regards {
+    width: 100%;
+    resize: none;
+    height: 70px;
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-top: 0;
+}
+
+.SendEmailPage .container {
+    width: 1000px;
+    border: 2px solid;
+    margin-top: 0;
+}
+
+.SendEmailPage .container .title {
+    position: relative;
+    padding: 20px 0;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.SendEmailPage .container .title h2 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.SendEmailPage .container .title .logo {
+    position: absolute;
+    width: 100px;
+    top: 0;
+    right: 0;
+}
+
+.SendEmailPage .container .title .logo img {
+    width: 100%;
+}
+
+.SendEmailPage .container .client_info p {
+    text-decoration: underline;
+    font-size: 1.1rem;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.SendEmailPage .container .child {
+    padding-top: 20px;
+}
+
+.SendEmailPage .container .child:last-child {
+    padding-bottom: 0;
+}
+
+.SendEmailPage .container .child .client_info {
+    margin-bottom: 20px;
+}
+
+.SendEmailPage .container .child:not(:last-child) {
+    border-bottom: 1px solid var(--slate-300);
+}
+
+.SendEmailPage .container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.SendEmailPage .container table thead th {
+    text-align: center;
+}
+
+.SendEmailPage .container table tbody th {
+    text-align: left;
+}
+
+.SendEmailPage .container table td {
+    font-weight: normal;
+    text-align: center;
+}
+
+.SendEmailPage .container table td input {
+    width: 80px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.SendEmailPage .container table td,
+.SendEmailPage .container table th {
+    border-top: 2px solid;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.SendEmailPage .container table td:last-child,
+.SendEmailPage .container table th:last-child {
+    border-right: none;
+}
+
+.SendEmailPage .container .child:last-child table td,
+.SendEmailPage .container .child:last-child table th {
+    border-bottom: none;
+}
+
+.SendEmailPage .btn.email {
+    font-size: 1.1rem;
+    margin-top: 200px;
+}
+
+.SendEmailPage .confirm {
+    margin-top: 220px;
+    width: 220px;
+    text-align: center;
+    border: 1px solid;
+    padding: 10px;
+    background: var(--slate-300);
+}
+
+.SendEmailPage .confirm p {
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.SendEmailPage .total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.SendEmailPage .total p {
+    padding: 10px;
+    font-size: 1.1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.SendEmailPage .total p:last-child {
+    text-align: center;
+    width: 130px;
+    border-left: 2px solid;
+}

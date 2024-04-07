@@ -1,0 +1,44 @@
+header {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    height: 110px;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--yellow);
+}
+
+header h1 {
+    width: 90%;
+    text-align: center;
+    font-size: 4rem;
+}
+
+header .logo {
+    width: 105px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+@media (max-width: 1300px) {
+    header h1 {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 1150px) {
+    header h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+}
