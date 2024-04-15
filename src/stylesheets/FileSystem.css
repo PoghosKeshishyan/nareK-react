@@ -98,12 +98,12 @@
 
 .FileSystem .files-container .file p {
     font-size: 1rem;
-    font-family: 'Lucida Sans';
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .FileSystem .files-container .file input {
-    font-size: 15px;
-    font-family: 'Lucida Sans';
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     width: 95%;
 }

@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from '../axios';
 
-export function HistoryPage() {
-  const [history, setHistory] = useState([]);
+export function StoryPage() {
+  const [story, setStory] = useState([]);
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState('');
   const [showYearsContainer, setShowYearsContainer] = useState(false);
@@ -22,19 +22,18 @@ export function HistoryPage() {
 
     setSelectedYear(year);
 
+    const responseStory = await axios.get(`story/${year}`);
+    setStory(responseStory.data);
 
-    const responseHistory = await axios.get(`history?year=${year}`);
-    setHistory(responseHistory.data);
-
-    const responseYears = await axios.get('years');
+    const responseYears = await axios.get('year');
     setYears(responseYears.data);
   }
 
   const calculateTotalAmount = () => {
     let sum = 0;
 
-    for (let i = 0; i < history.length; i++) {
-      sum += +history[i].amount.slice(1);
+    for (let i = 0; i < story.length; i++) {
+      sum += +story[i].amount.slice(1);
     }
 
     return `$${sum.toFixed(2)}`;
@@ -48,7 +47,7 @@ export function HistoryPage() {
   }
 
   return (
-    <div className='HistoryPage'>
+    <div className='StoryPage'>
       <table>
         <thead>
           <tr>
@@ -59,7 +58,7 @@ export function HistoryPage() {
           </tr>
 
           {
-            history.map((elem, index) => (
+            story.map((elem, index) => (
               <tr key={elem.id}>
                 <td>{index + 1}</td>
                 <td>{elem.parent_name}</td>

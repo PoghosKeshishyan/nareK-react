@@ -3,10 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { HomePage } from './pages/HomePage';
 import { ProfilePage } from './pages/ProfilePage';
-import { HistoryPage } from './pages/HistoryPage';
-import { ClientPage } from './pages/ClientPage';
-import { CalendarPage } from './pages/CalendarPage';
-import { SendEmailPage } from './pages/SendEmailPage';
+import { StoryPage } from './pages/StoryPage';
+// import { ClientPage } from './pages/ClientPage';
+// import { CalendarPage } from './pages/CalendarPage';
+// import { SendEmailPage } from './pages/SendEmailPage';
 import axios from './axios';
 
 export function App() {
@@ -18,7 +18,7 @@ export function App() {
 
   const loadingData = async () => {
     const response = await axios.get('header');
-    setHeader(response.data);
+    setHeader(response.data[0]);
   }
 
   return (
@@ -29,10 +29,10 @@ export function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/history' element={<HistoryPage />} />
-          <Route path='/client/:id' element={<ClientPage />} />
-          <Route path='/child/:id/:month/:year' element={<CalendarPage />} />
-          <Route path='/child/:id/:week/:month/:year/feedback' element={<SendEmailPage />} />
+          <Route path='/story' element={<StoryPage />} />
+          {/* <Route path='/client/:id' element={<ClientPage />} /> */}
+          {/* <Route path='/child/:id/:month/:year' element={<CalendarPage />} /> */}
+          {/* <Route path='/child/:id/:week/:month/:year/feedback' element={<SendEmailPage />} /> */}
         </Routes>
       </main>
     </div>

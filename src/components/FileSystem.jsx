@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { ContextMenu } from './ContextMenu';
+import { API_URL } from '../config';
 
 export function FileSystem({
     files,
+    images,
     handlerFile,
     activeFileId,
     keyDownActive,
@@ -11,11 +13,10 @@ export function FileSystem({
     setActiveFileId,
     addFolderHandler,
     setKeyDownActive,
-    deleteFileHandler,
     onChangeFileName,
-    deleteFolderHandler,
     previousFolderHandler,
-    onSubmitChangeFileName
+    onSubmitChangeFileOrFolderName,
+    deleteFolderOrFileHandler,
 }) {
     const [contextMenuOpen, setContextMenuOpen] = useState(false);
     const [contextMenuId, setContextMenuId] = useState(-1);
@@ -47,11 +48,7 @@ export function FileSystem({
         }
 
         if (event.key === 'Delete') {
-            if (file.dir) {
-                deleteFolderHandler(file);
-            } else {
-                deleteFileHandler(file);
-            }
+            deleteFolderOrFileHandler(file);
         }
     }
 
@@ -75,7 +72,7 @@ export function FileSystem({
             {
                 !files.files?.length && (
                     <div className='empty_folder'>
-                        <img src='/empty-folder.png' alt='empty-folder' />
+                        <img src={`${API_URL}${images['empty-folder']}`} alt='empty-folder' />
                         <p>Folder is empty</p>
                     </div>
                 )
@@ -94,13 +91,16 @@ export function FileSystem({
                             onContextMenu={(e) => handleContextMenu(e, file.id)}
                         >
                             {
-                                file.dir ? (<img src='folder.jpg' alt='folder' />) : 
-                                (<img src='file.png' alt='folder' className='file' />)
+                                file.dir ? (
+                                    <img src={`${API_URL}${images.folder}`} alt='folder' />
+                                ) : (
+                                    <img src={`${API_URL}${images.file}`} alt='folder' className='file' />
+                                )
                             }
 
                             {
                                 keyDownActive && activeFileId === file.id ? (
-                                    <form onSubmit={(e) => onSubmitChangeFileName(e, file)}>
+                                    <form onSubmit={(e) => onSubmitChangeFileOrFolderName(e, file)}>
                                         <input
                                             type='text'
                                             ref={inputRef}
@@ -129,9 +129,8 @@ export function FileSystem({
                                         ref={contextmenuRef}
                                         setActiveFileId={setActiveFileId}
                                         setKeyDownActive={setKeyDownActive}
-                                        deleteFileHandler={deleteFileHandler}
                                         setContextMenuOpen={setContextMenuOpen}
-                                        deleteFolderHandler={deleteFolderHandler}
+                                        deleteFolderOrFileHandler={deleteFolderOrFileHandler}
                                     />
                                 )
                             }

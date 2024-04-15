@@ -14,14 +14,14 @@ export function HomePage() {
     }, [])
 
     const loadingClients = async () => {
-        const responseParents = await axios.get('parents');
+        const responseParents = await axios.get('parent');
         const parentsData = responseParents.data;
 
         const responseChildren = await axios.get('children');
         const childrenData = responseChildren.data;
 
         const responseProvider = await axios.get('provider');
-        setProvider(responseProvider.data);
+        setProvider(responseProvider.data[0]);
 
         const combinedData = parentsData.map(parent => {
             const children = childrenData.filter(child => child.parent_id === parent.id);
@@ -125,7 +125,7 @@ export function HomePage() {
                 />
             }
 
-            <Link to='profile' className='btn'>
+            <Link to='/profile' className='btn'>
                 Profile page
             </Link>
         </div>

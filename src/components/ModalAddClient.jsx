@@ -7,8 +7,6 @@ export function ModalAddClient({ setShowModal, loadingClients }) {
         address: '',
         telephone: '',
         email: '',
-        discharge: '',
-        enrollment: new Date().toISOString().split('T')[0],
     });
 
     const onChangeInput = (event) => {
@@ -17,7 +15,7 @@ export function ModalAddClient({ setShowModal, loadingClients }) {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        await axios.post('parents', formData);
+        await axios.post('parent/add', formData);
         loadingClients();
         setShowModal();
     }
@@ -29,7 +27,7 @@ export function ModalAddClient({ setShowModal, loadingClients }) {
             <form onSubmit={submitHandler}>
                 <h2 className='title'>
                     Add client
-                    
+
                     <span className='close_modal' onClick={() => setShowModal(false)}>
                         &times;
                     </span>
