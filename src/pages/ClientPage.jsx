@@ -22,10 +22,10 @@ export function ClientPage() {
     }, [])
 
     const loadingData = async () => {
-        const responseParent = await axios.get(`parents/${id}`);
+        const responseParent = await axios.get(`parent/${id}`);
         setParent(responseParent.data);
 
-        const responseChildren = await axios.get(`children?parent_id=${id}`);
+        const responseChildren = await axios.get(`children/by_parent_id?parent_id=${id}`);
         setChildren(responseChildren.data);
 
         if (sessionStorage.getItem('Child')) {
@@ -34,10 +34,10 @@ export function ClientPage() {
             setSelectedChild(responseChildren.data[0]);
         }
 
-        const responseMonths = await axios.get('months');
+        const responseMonths = await axios.get('month');
         setMonths(responseMonths.data);
 
-        const responseYears = await axios.get('years');
+        const responseYears = await axios.get('year');
         setYears(responseYears.data);
 
         // selected year
@@ -89,7 +89,7 @@ export function ClientPage() {
 
     const parentSubmitHandler = async (event) => {
         event.preventDefault();
-        await axios.put(`parents/${id}`, parent);
+        await axios.put(`parent/edit/${id}`, parent);
         setShowSubmitBtnParent(false);
     }
 
@@ -97,7 +97,7 @@ export function ClientPage() {
         event.preventDefault();
 
         children.forEach(async child => {
-            await axios.put(`children/${child.id}`, child);
+            await axios.put(`children/edit/${child.id}`, child);
         })
 
         setShowSubmitBtnChild(false);
@@ -247,7 +247,7 @@ export function ClientPage() {
                       className='child_name'
                       onClick={() => setShowChildContainer(!showChildContainer)}
                     >
-                        {selectedChild.name}
+                        {selectedChild?.name}
                     </p>
 
                     <h3>Attendance</h3>
@@ -290,7 +290,7 @@ export function ClientPage() {
                             <Link 
                               key={index}
                               className='btn month'
-                              to={`/child/${selectedChild.id}/${item.month}/${selectedYear}`}
+                              to={`/child/${selectedChild?.id}/${item.month}/${selectedYear}`}
                             >
                                 {item.month}
                             </Link>

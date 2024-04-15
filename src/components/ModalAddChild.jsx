@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { Loading } from './Loading';
 import axios from '../axios';
 
 export function ModalAddChild({ id, setShowModal, loadingData }) {
+    const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         name: '',
         birth: '',
-        parent_Id: id,
-        discharge: '',
-        number_of_hours: '',
+        parent_id: id,
+        discharge: '-',
+        number_of_hours: 0,
         enrollment: new Date().toISOString().split('T')[0],
     });
 
@@ -17,21 +20,29 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        console.log(formData);
-        await axios.post('children', formData);
-        loadingData();
-        setShowModal();
+
+        setLoading(true);
+
+        await axios.post('children/add', formData)
+            .then(() => {
+                loadingData();
+                setShowModal();
+                setLoading(false);
+            });
     }
 
     return (
         <div className='ModalAddChild'>
             <div className='dark_bg' onClick={() => setShowModal(false)}></div>
 
-            <form onSubmit={submitHandler}>
+            {
+                loading && <Loading />
+            }
 
+            <form onSubmit={submitHandler}>
                 <h2 className='title'>
                     Add child
-                    
+
                     <span className='close_modal' onClick={() => setShowModal(false)}>
                         &times;
                     </span>

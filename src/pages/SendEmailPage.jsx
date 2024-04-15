@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { MessageBox } from '../components/MessageBox';
-import axios from '../axios';
 import { ModalPaymentConfirm } from '../components/ModalPaymentConfirm';
+import axios from '../axios';
 
 export function SendEmailPage() {
   const [formData, setFormData] = useState({
@@ -26,11 +26,11 @@ export function SendEmailPage() {
     const responseSingleChild = await axios.get(`children/${id}`);
     const parentId = responseSingleChild.data.parent_id;
 
-    const responseParent = await axios.get(`parents/${parentId}`);
+    const responseParent = await axios.get(`parent/${parentId}`);
     const responseProvider = await axios.get('provider');
 
     const allChildrenParent = await axios.get(
-      `weeks?parent_id=${parentId}&week=${week}&month=${month}&year=${year}`
+      `week/parent/${parentId}?week=${week}&month=${month}&year=${year}`
     );
 
     // filter childs which did not come during the week
@@ -38,6 +38,7 @@ export function SendEmailPage() {
 
     // the clicked child is placed at the beginning of the array
     const foundIndex = arr.findIndex(item => item.child_id === responseSingleChild.data.id);
+
     let result;
 
     if (foundIndex !== -1) {
@@ -54,11 +55,11 @@ export function SendEmailPage() {
     })
 
     const message1 = 'Dear valued parent, we kindly request that you make a payment in accordance with the details provided in this bill.';
-    const message2 = `Kind regards: \n${responseProvider.data.name}`;
+    const message2 = `Kind regards: \n${responseProvider.data[0].name}`;
 
     setFormData({
-      title: responseHeader.data.title,
-      logo: responseHeader.data.logo,
+      title: responseHeader.data[0].title,
+      logo: responseHeader.data[0].logo,
       dates_interval: allChildrenParent.data[0].dates,
       parent_email: responseParent.data.email,
       parent_name: responseParent.data.name,
@@ -147,42 +148,6 @@ export function SendEmailPage() {
           onChangeEmailBox={onChangeEmailBox}
           calculateTotalAmount={calculateTotalAmount}
         />
-
-        {/* <div className='container'>
-            <div className='title'>
-              <h3>{formData.title} Weekly Bill <br /> Lic. 343625479</h3>
-
-              <div className='logo'>
-                <img src={formData.logo} alt='logo' />
-              </div>
-            </div>
-
-            <div className='client_info'>
-              <p>Parent’s name: <b>{formData.parent_name}</b></p>
-            </div>
-
-            {
-              formData.children.map((child, index) => (
-                <div className='child' key={index}>
-                  <div className='client_info'>
-                    <p>Child's name: <b>{child.child_name}</b></p>
-                  </div>
-
-                  <SendEmailTable
-                    child={child}
-                    onChangeInput={onChangeInput}
-                    squareNumbers={squareNumbers}
-                  />
-                </div>
-              ))
-            }
-
-            <div className='total'>
-              <p>Total Due for Week:</p>
-              <p>{formData.dates_interval}</p>
-              <p>{calculateTotalAmount()}</p>
-            </div>
-          </div> */}
 
         <input type='submit' value='Submit' className='btn email' />
       </form>

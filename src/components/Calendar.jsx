@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function Calendar({ childId, month, year, showBtn, weeks, onCheckDay, onChangeInput }) {
+export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInput }) {
     return (
         <div className='Calendar'>
             {

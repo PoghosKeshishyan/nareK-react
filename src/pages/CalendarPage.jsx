@@ -15,14 +15,13 @@ export function CalendarPage() {
     }, [])
 
     const loadingData = async () => {
-        // loading data from backend
         const responseChild = await axios.get(`children/${id}`);
         setChild(responseChild.data);
 
-        const responseParent = await axios.get(`parents/${responseChild.data.parent_id}`);
+        const responseParent = await axios.get(`parent/${responseChild.data.parent_id}`);
         setParent(responseParent.data);
 
-        const weeks = await axios.get(`weeks?child_id=${id}&month=${month}&year=${year}`);
+        const weeks = await axios.get(`week/child/${id}?month=${month}&year=${year}`);
         setWeeks(weeks.data);
     }
 
@@ -49,7 +48,7 @@ export function CalendarPage() {
         })
 
         setWeeks(newWeeks);
-        await axios.put(`weeks/${week.id}`, currentWeek)
+        await axios.put(`week/edit/${week.id}`, currentWeek)
     }
 
     const onChangeInput = async (event, dayId, week) => {
@@ -80,7 +79,7 @@ export function CalendarPage() {
         });
     
         setWeeks(newWeeks);
-        await axios.put(`weeks/${week.id}`, currentWeek);
+        await axios.put(`week/edit/${week.id}`, currentWeek);
     }
 
     return (

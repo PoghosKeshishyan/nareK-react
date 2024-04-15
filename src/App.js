@@ -4,9 +4,9 @@ import { Header } from './components/Header';
 import { HomePage } from './pages/HomePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { StoryPage } from './pages/StoryPage';
-// import { ClientPage } from './pages/ClientPage';
-// import { CalendarPage } from './pages/CalendarPage';
-// import { SendEmailPage } from './pages/SendEmailPage';
+import { ClientPage } from './pages/ClientPage';
+import { CalendarPage } from './pages/CalendarPage';
+import { SendEmailPage } from './pages/SendEmailPage';
 import axios from './axios';
 
 export function App() {
@@ -30,9 +30,9 @@ export function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/story' element={<StoryPage />} />
-          {/* <Route path='/client/:id' element={<ClientPage />} /> */}
-          {/* <Route path='/child/:id/:month/:year' element={<CalendarPage />} /> */}
-          {/* <Route path='/child/:id/:week/:month/:year/feedback' element={<SendEmailPage />} /> */}
+          <Route path='/client/:id' element={<ClientPage />} />
+          <Route path='/child/:id/:month/:year' element={<CalendarPage />} />
+          <Route path='/child/:id/:week/:month/:year/feedback' element={<SendEmailPage />} />
         </Routes>
       </main>
     </div>

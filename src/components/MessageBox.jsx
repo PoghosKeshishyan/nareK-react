@@ -1,4 +1,5 @@
 import { SendEmailTable } from "./SendEmailTable";
+import { API_URL } from "../config";
 
 export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChangeInput, calculateTotalAmount }) {
     return (
@@ -37,7 +38,7 @@ export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChange
                     <h3>{formData.title} Weekly Bill <br /> Lic. 343625479</h3>
 
                     <div className='logo'>
-                        <img src={formData.logo} alt='logo' />
+                        <img src={`${API_URL}${formData.logo}`} alt='logo' />
                     </div>
                 </div>
 
