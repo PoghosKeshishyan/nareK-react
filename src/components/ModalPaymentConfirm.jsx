@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { Loading } from "./Loading";
 import axios from "../axios";
 
-export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount }) {
+export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handlerConfirmPayment }) {
     const [formData, setFormData] = useState({ parent_email: '', subject: '', message: '' });
+    const [loading, setLoading] = useState(false);
 
     const onChangeInput = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -13,7 +15,7 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount }) {
     }, [])
 
     const loadingData = async () => {
-        const response = (await axios.get(`parents/${parentId}`)).data;
+        const response = (await axios.get(`parent/${parentId}`)).data;
 
         setFormData({
             parent_id: response.id,
@@ -25,13 +27,25 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount }) {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        console.log(formData);
-        setShowModal(false);
+
+        setLoading(true);
+
+        await axios.post('send-email/payment-confirm', formData)
+            .then(res => {
+                setLoading(false);
+                setShowModal(false);
+                alert(res.data.message);
+                handlerConfirmPayment();
+            })
     }
 
     return (
         <div className="ModalPaymentConfirm">
             <div className='dark_bg' onClick={() => setShowModal(false)}></div>
+
+            {
+                loading && <Loading loadingMessage={'Sending message'} />
+            }
 
             <form onSubmit={submitHandler}>
                 <h2 className='title'>

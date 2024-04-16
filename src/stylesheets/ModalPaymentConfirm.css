@@ -19,7 +19,7 @@
     top: 80px;
     left: 50%;
     z-index: 1002;
-    width: 500px;
+    width: 600px;
     display: block;
     background: var(--white);
     transform: translateX(-50%);
@@ -58,7 +58,7 @@
 
 .ModalPaymentConfirm form label p {
     width: 120px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-family: 'Lucida Sans';
     height: 100%;
 }

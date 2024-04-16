@@ -36,7 +36,7 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
             <div className='dark_bg' onClick={() => setShowModal(false)}></div>
 
             {
-                loading && <Loading />
+                loading && <Loading loadingMessage={'Creating new child...'} />
             }
 
             <form onSubmit={submitHandler}>

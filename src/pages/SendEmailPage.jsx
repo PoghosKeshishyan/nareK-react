@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { MessageBox } from '../components/MessageBox';
+import { Loading } from '../components/Loading';
 import { ModalPaymentConfirm } from '../components/ModalPaymentConfirm';
 import axios from '../axios';
 
@@ -14,6 +15,7 @@ export function SendEmailPage() {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { id, week, month, year } = useParams();
 
   useEffect(() => {
@@ -115,30 +117,37 @@ export function SendEmailPage() {
     return `$${sum.toFixed(2)}`;
   }
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    setLoading(true);
+
+    await axios.post('send-email/coupon', formData)
+      .then(res => {
+        setLoading(false);
+        alert(res.data.message);
+      });
   }
 
   const handlerConfirmPayment = async () => {
-    const confirm = window.confirm('Are you sure?');
+    const data = {
+      year,
+      amount: calculateTotalAmount(),
+      parent_name: formData.parent_name,
+      payment_date: new Date().toISOString().split('T')[0]
+    };
 
-    if (confirm) {
-      const data = {
-        year,
-        amount: calculateTotalAmount(),
-        parent_name: formData.parent_name,
-        payment_date: new Date().toISOString().split('T')[0]
-      };
-
-      await axios.post('history', data);
-    }
+    await axios.post('story/add', data);
   }
 
   return (
     <div className='SendEmailPage'>
       <Link to={-1} className='btn back'>{month}_{year}</Link>
       <Link to='/' className='btn home'>Home</Link>
+
+      {
+        loading && <Loading loadingMessage={'Sending message'} />
+      }
 
       <form onSubmit={submitHandler}>
         <MessageBox
@@ -166,6 +175,7 @@ export function SendEmailPage() {
             setShowModal={setShowModal}
             parentId={formData.parent_id}
             totalAmount={calculateTotalAmount}
+            handlerConfirmPayment={handlerConfirmPayment}
           />
         )
       }

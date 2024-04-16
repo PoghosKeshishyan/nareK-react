@@ -1,7 +1,7 @@
 .Loading {
   margin-top: -100px;
   text-align: center;
-  position: absolute;
+  position: fixed;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2000;
@@ -10,7 +10,7 @@
 
 .loading_bg {
   background: var(--alpha-slate);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
