@@ -10,7 +10,7 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
         birth: '',
         parent_id: id,
         discharge: '-',
-        number_of_hours: 0,
+        number_of_hours: '',
         enrollment: new Date().toISOString().split('T')[0],
     });
 

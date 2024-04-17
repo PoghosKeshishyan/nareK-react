@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from '../axios';
 
 export function StoryPage() {
@@ -48,6 +48,8 @@ export function StoryPage() {
 
   return (
     <div className='StoryPage'>
+      <Link to={-1} className='btn profile'>Profile</Link>
+
       <table>
         <thead>
           <tr>

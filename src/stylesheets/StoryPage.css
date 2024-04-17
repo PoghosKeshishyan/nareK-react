@@ -5,6 +5,15 @@
     gap: 5rem;
 }
 
+.StoryPage .btn.profile {
+    position: fixed;
+    z-index: 1001;
+    top: 5%;
+    right: 9.5%;
+    width: 80px;
+    text-align: center;
+}
+
 .StoryPage table {
     width: 700px;
     border-collapse: collapse;

@@ -7,7 +7,7 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
                 weeks.map((elem, index) => <div className='week' key={index}>
                     <div className='content'>
                         {
-                            elem.days.map(day => (
+                            elem.days.map(day => day.title && (
                                 <div className={`sub_item ${day.disabled ? 'active' : ''}`} key={day.id}>
                                     <h3>{day.title}</h3>
 
