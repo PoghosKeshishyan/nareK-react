@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { MessageBox } from '../components/MessageBox';
 import { Loading } from '../components/Loading';
 import { ModalPaymentConfirm } from '../components/ModalPaymentConfirm';
+import html2pdf from 'html2pdf.js';
 import axios from '../axios';
 
 export function SendEmailPage() {
@@ -36,7 +37,7 @@ export function SendEmailPage() {
     );
 
     // filter childs which did not come during the week
-    const arr = allChildrenParent.data.filter(el => el.total_days || el.total_time_in_week);
+    const arr = allChildrenParent.data.filter(el => el.total_days && el.total_time_in_week);
 
     // the clicked child is placed at the beginning of the array
     const foundIndex = arr.findIndex(item => item.child_id === responseSingleChild.data.id);
@@ -66,6 +67,7 @@ export function SendEmailPage() {
       parent_email: responseParent.data.email,
       parent_name: responseParent.data.name,
       parent_id: responseParent.data.id,
+      proveider_email: responseProvider.data[0].email,
       children,
       message1,
       message2,
@@ -117,9 +119,35 @@ export function SendEmailPage() {
     return `$${sum.toFixed(2)}`;
   }
 
+  const handleConvertToPDF = () => {
+    // Hide the button before creating the PDF
+    const downloadPdfButton = document.querySelector('.SendEmailPage .btn.download_pdf');
+    if (downloadPdfButton) {
+      downloadPdfButton.style.display = 'none';
+    }
+
+    // Then create the PDF
+    const sendEmailPageDiv = document.querySelector('.SendEmailPage');
+
+    html2pdf().from(sendEmailPageDiv).set({
+      filename: 'SendEmailPage.pdf',
+      pagebreak: { mode: 'avoid-all' },
+      margin: [-75, 5, 0, 0],
+      html2canvas: { scale: 2 },
+      jsPDF: { format: 'a4', orientation: 'landscape' }
+    }).save();
+
+    // Restore the visibility of the button after creating the PDF (if necessary)
+    if (downloadPdfButton) {
+      setTimeout(() => {
+        downloadPdfButton.style.display = 'block'; // Or 'inline-block', depending on the original button style
+      }) 
+    }
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
-
+    console.log(formData);
     setLoading(true);
 
     await axios.post('send-email/coupon', formData)
@@ -130,11 +158,17 @@ export function SendEmailPage() {
   }
 
   const handlerConfirmPayment = async () => {
+    const payment_date = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).replace(/\//g, '-');
+
     const data = {
       year,
+      payment_date,
       amount: calculateTotalAmount(),
       parent_name: formData.parent_name,
-      payment_date: new Date().toISOString().split('T')[0]
     };
 
     await axios.post('story/add', data);
@@ -160,6 +194,11 @@ export function SendEmailPage() {
 
         <input type='submit' value='Submit' className='btn email' />
       </form>
+
+      <button className='btn download_pdf' onClick={handleConvertToPDF}>
+        <i className="fa-solid fa-download"></i>
+        Download to pdf
+      </button>
 
       <div className='confirm'>
         <p>Payment Confirmation</p>

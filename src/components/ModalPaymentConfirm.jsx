@@ -16,12 +16,18 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handl
 
     const loadingData = async () => {
         const response = (await axios.get(`parent/${parentId}`)).data;
+        
+        const today = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\//g, '-');
 
         setFormData({
             parent_id: response.id,
             parent_email: response.email,
             subject: `Payment Confirmation for ${response.name} for Mrs. N's Child Care/Preschool`,
-            message: `Mrs. N’s Fireflies Child Care/Preschool \nLic. 343625479 \n\nThank you for your payment! \nYour bill payment has been successfully received. \n\nName: ${response.name} \nPayment Date: ${new Date().toISOString().split('T')[0]} \nPayment Amount: ${totalAmount()}`,
+            message: `Mrs. N’s Fireflies Child Care/Preschool \nLic. 343625479 \n\nThank you for your payment! \nYour bill payment has been successfully received. \n\nName: ${response.name} \nPayment Date: ${today} \nPayment Amount: ${totalAmount()}`,
         })
     }
 

@@ -1,16 +1,25 @@
 .SendEmailPage {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
     margin-top: 100px;
+}
+
+.SendEmailPage .btn.download_pdf {
+    position: absolute;
+    top: 35%;
+    right: 6%;
+}
+
+.SendEmailPage .btn.download_pdf i {
+    margin-right: 10px;
 }
 
 .SendEmailPage .btn.back {
     position: fixed;
     z-index: 1001;
     top: 3%;
-    right: 8.5%;
-    width: 120px;
+    right: 8%;
+    width: 130px;
     text-align: center;
     font-size: 1rem;
     text-transform: capitalize;
@@ -20,8 +29,8 @@
     position: fixed;
     z-index: 1001;
     top: 8%;
-    right: 8.5%;
-    width: 120px;
+    right: 8%;
+    width: 130px;
     text-align: center;
 }
 
@@ -29,7 +38,10 @@
     margin: 50px 40px;
     display: flex;
     align-items: flex-start;
-    gap: 2rem;
+}
+
+.SendEmailPage form .MessageBox {
+    margin-right: 5rem;
 }
 
 .SendEmailPage form .form_item p,

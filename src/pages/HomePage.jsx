@@ -125,7 +125,7 @@ export function HomePage() {
                 />
             }
 
-            <Link to='/profile' className='btn'>
+            <Link to='/profile' className='btn p'>
                 Profile page
             </Link>
         </div>

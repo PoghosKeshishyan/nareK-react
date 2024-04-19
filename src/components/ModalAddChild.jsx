@@ -1,9 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Loading } from './Loading';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import axios from '../axios';
 
 export function ModalAddChild({ id, setShowModal, loadingData }) {
     const [loading, setLoading] = useState(false);
+    const birthPickerRef = useRef(null);
+    const enrollmentPickerRef = useRef(null);
+
+    const today = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).replace(/\//g, '-');
+
+    useEffect(() => {
+        const birthPicker = flatpickr(birthPickerRef.current, {
+            dateFormat: 'm-d-Y'
+        });
+
+        const enrollmentPicker = flatpickr(enrollmentPickerRef.current, {
+            dateFormat: 'm-d-Y'
+        });
+
+        return () => {
+            birthPicker.destroy();
+            enrollmentPicker.destroy();
+        };
+    }, []);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -11,7 +36,7 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
         parent_id: id,
         discharge: '-',
         number_of_hours: '',
-        enrollment: new Date().toISOString().split('T')[0],
+        enrollment: today,
     });
 
     const onChangeInput = (event) => {
@@ -20,6 +45,10 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
 
     const submitHandler = async (event) => {
         event.preventDefault();
+
+        if (formData.number_of_hours === '0') {
+            return alert('Number of hours must be a number greater than 0.');
+        }
 
         setLoading(true);
 
@@ -76,11 +105,13 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
                     <p>Date of birth:</p>
 
                     <input
-                        type='date'
+                        type="text"
+                        ref={birthPickerRef}
+                        placeholder='mm-dd-yyyy'
                         name='birth'
-                        required
                         value={formData.birth}
-                        onChange={onChangeInput}
+                        onInput={onChangeInput}
+                        required
                     />
                 </div>
 
@@ -88,9 +119,11 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
                     <p>Date of enrollment:</p>
 
                     <input
-                        type='date'
+                        type='text'
                         name='enrollment'
+                        ref={enrollmentPickerRef}
                         required
+                        placeholder='mm-dd-yyyy'
                         value={formData.enrollment}
                         onChange={onChangeInput}
                     />

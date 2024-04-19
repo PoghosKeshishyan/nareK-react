@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ModalAddChild } from '../components/ModalAddChild';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import axios from '../axios';
 
 export function ClientPage() {
     const [parent, setParent] = useState({ name: '', address: '', telephone: '', email: '' });
     const [children, setChildren] = useState([]);
-    const [selectedChild, setSelectedChild] = useState({name: ''});
+    const [selectedChild, setSelectedChild] = useState({ name: '' });
     const [months, setMonths] = useState([]);
     const [years, setYears] = useState([]);
     const [showChildContainer, setShowChildContainer] = useState(false);
@@ -187,10 +189,21 @@ export function ClientPage() {
                                         <td>Date of birth:</td>
                                         <td>
                                             <input
-                                                type='date'
+                                                type='text'
                                                 name='birth'
                                                 value={child.birth}
                                                 onChange={e => onChangeChildrenInput(e, child.id)}
+                                                ref={(input) => {
+                                                    if (input && !input._flatpickr) {
+                                                        flatpickr(input, {
+                                                            dateFormat: 'm-d-Y', // Формат даты
+                                                            defaultDate: child.birth, // Значение по умолчанию
+                                                            onChange: (selectedDates, dateStr) => {
+                                                                onChangeChildrenInput({ target: { name: 'birth', value: dateStr } }, child.id);
+                                                            }
+                                                        });
+                                                    }
+                                                }}
                                             />
                                         </td>
                                     </tr>
@@ -199,10 +212,21 @@ export function ClientPage() {
                                         <td>Date of enrollment:</td>
                                         <td>
                                             <input
-                                                type='date'
+                                                type='text'
                                                 name='enrollment'
                                                 value={child.enrollment}
                                                 onChange={e => onChangeChildrenInput(e, child.id)}
+                                                ref={(input) => {
+                                                    if (input && !input._flatpickr) {
+                                                        flatpickr(input, {
+                                                            dateFormat: 'm-d-Y', // Формат даты
+                                                            defaultDate: child.enrollment, // Значение по умолчанию
+                                                            onChange: (selectedDates, dateStr) => {
+                                                                onChangeChildrenInput({ target: { name: 'enrollment', value: dateStr } }, child.id);
+                                                            }
+                                                        });
+                                                    }
+                                                }}
                                             />
                                         </td>
                                     </tr>
@@ -214,7 +238,19 @@ export function ClientPage() {
                                                 type='text'
                                                 name='discharge'
                                                 value={child.discharge}
+                                                placeholder='-'
                                                 onChange={e => onChangeChildrenInput(e, child.id)}
+                                                ref={(input) => {
+                                                    if (input && !input._flatpickr) {
+                                                        flatpickr(input, {
+                                                            dateFormat: 'm-d-Y', // Формат даты
+                                                            defaultDate: child.discharge, // Значение по умолчанию
+                                                            onChange: (selectedDates, dateStr) => {
+                                                                onChangeChildrenInput({ target: { name: 'discharge', value: dateStr } }, child.id);
+                                                            }
+                                                        });
+                                                    }
+                                                }}
                                             />
                                         </td>
                                     </tr>
@@ -243,9 +279,9 @@ export function ClientPage() {
 
             <div className='months'>
                 <div className='title'>
-                    <p 
-                      className='child_name'
-                      onClick={() => setShowChildContainer(!showChildContainer)}
+                    <p
+                        className='child_name'
+                        onClick={() => setShowChildContainer(!showChildContainer)}
                     >
                         {selectedChild?.name}
                     </p>
@@ -260,9 +296,9 @@ export function ClientPage() {
                         showChildContainer && children.length > 1 && <div className='child_container'>
                             {
                                 children.map(child => (
-                                    <p 
-                                      key={child.id}
-                                      onClick={() => onChangeChild(child)}
+                                    <p
+                                        key={child.id}
+                                        onClick={() => onChangeChild(child)}
                                     >
                                         {child.name}
                                     </p>
@@ -287,10 +323,10 @@ export function ClientPage() {
                 <div className='months_container'>
                     {
                         months.map((item, index) => (
-                            <Link 
-                              key={index}
-                              className='btn month'
-                              to={`/child/${selectedChild?.id}/${item.month}/${selectedYear}`}
+                            <Link
+                                key={index}
+                                className='btn month'
+                                to={`/child/${selectedChild?.id}/${item.month}/${selectedYear}`}
                             >
                                 {item.month}
                             </Link>

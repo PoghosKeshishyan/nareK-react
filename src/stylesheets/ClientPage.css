@@ -1,7 +1,6 @@
 .ClientPage {
     display: flex;
     flex-wrap: wrap;
-    gap: 5rem;
     margin: 150px 50px;
 }
 
@@ -126,6 +125,15 @@
 
 .ClientPage table tr:nth-child(odd) {
     background-color: var(--yellow);
+}
+
+.ClientPage .info {
+    width: 550px;
+    margin-right: 5rem;
+}
+
+.ClientPage .info .childrenForm table {
+    width: 100%;
 }
 
 .ClientPage .info form .btn {
