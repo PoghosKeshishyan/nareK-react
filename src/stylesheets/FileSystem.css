@@ -2,6 +2,7 @@
     width: 620px;
     padding: 20px;
     position: relative;
+    user-select: none;
 }
 
 .FileSystem .currentLevel {

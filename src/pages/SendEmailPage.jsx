@@ -58,7 +58,7 @@ export function SendEmailPage() {
     })
 
     const message1 = 'Dear valued parent, we kindly request that you make a payment in accordance with the details provided in this bill.';
-    const message2 = `Kind regards: \n${responseProvider.data[0].name}`;
+    const message2 = `Kind regards, \n${responseProvider.data[0].name}`;
 
     setFormData({
       title: responseHeader.data[0].title,
@@ -130,7 +130,7 @@ export function SendEmailPage() {
     const sendEmailPageDiv = document.querySelector('.SendEmailPage');
 
     html2pdf().from(sendEmailPageDiv).set({
-      filename: 'SendEmailPage.pdf',
+      filename: `${formData.subject}.pdf`,
       pagebreak: { mode: 'avoid-all' },
       margin: [-75, 5, 0, 0],
       html2canvas: { scale: 2 },
@@ -141,13 +141,12 @@ export function SendEmailPage() {
     if (downloadPdfButton) {
       setTimeout(() => {
         downloadPdfButton.style.display = 'block'; // Or 'inline-block', depending on the original button style
-      }) 
+      })
     }
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log(formData);
     setLoading(true);
 
     await axios.post('send-email/coupon', formData)
@@ -207,7 +206,6 @@ export function SendEmailPage() {
           Confirm
         </button>
       </div>
-
       {
         showModal && (
           <ModalPaymentConfirm
