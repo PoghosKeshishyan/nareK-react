@@ -23,14 +23,6 @@ export function SendEmailPage() {
     loadingData();
   }, [])
 
-  const squareNumbers = (num1, num2) => {
-    if (num2 === 0) {
-      return (num1 * 1).toFixed(2);
-    }
-
-    return (num1 * num2).toFixed(2);
-  }
-
   const loadingData = async () => {
     const responseHeader = await axios.get('header');
 
@@ -38,11 +30,11 @@ export function SendEmailPage() {
     const parentId = responseSingleChild.data.parent_id;
 
     const responseParent = await axios.get(`parent/${parentId}`);
+    const responseProvider = await axios.get('provider');
+
     const allChildrenParent = await axios.get(
       `week/parent/${parentId}?week=${week}&month=${month}&year=${year}`
     );
-
-    const responseProvider = await axios.get('provider');
 
     // filter childs which did not come during the week
     const arr = allChildrenParent.data.filter(el => el.total_days && el.total_time_in_week);
@@ -60,36 +52,9 @@ export function SendEmailPage() {
     }
 
     const children = result?.map(child => {
-      const numberOfHours = child.number_of_hours;
-      let hours_count = child.total_time_in_week;
-      let hours_count_extended = 0;
-
-      if (hours_count > numberOfHours) {
-        hours_count_extended = hours_count - numberOfHours;
-        hours_count = numberOfHours;
-      }
-
-      const amount = squareNumbers(hours_count, child.cost_for_per_hour.slice(1));
-      const amountExtended = squareNumbers(hours_count_extended, child.cost_for_per_hour.slice(1));
-
-      const cost_for_per_hour_extended = hours_count_extended > 0 ? child.cost_for_per_hour : '$0';
-
-      const objData = {
-        number_of_weeks: '1',
-        number_of_weeks_extended: '0',
-
-        amount: `$${amount}`,
-        amount_extended: `$${amountExtended}`,
-
-        total_days_extended: '0',
-
-        cost_for_per_hour_extended,
-
-        hours_count,
-        hours_count_extended: hours_count_extended.toFixed(1),
-      };
-
-      return { ...child, ...objData };
+      const objData = { costHour: '$8.00', numberWeeksExt: '-', hoursExt: '-', daysExt: '-', costHourExt: '-', amountExt: '$0', numberWeeks: '1' };
+      const newChild = { ...child, ...objData };
+      return newChild;
     })
 
     const message1 = 'Dear parent, we kindly request that you make a payment in accordance with the details provided in this bill.';
@@ -110,54 +75,45 @@ export function SendEmailPage() {
     });
   }
 
+  const squareNumbers = (num1, num2) => {
+    if (num2 === 0) {
+      return (num1 * 1).toFixed(2);
+    }
+
+    return (num1 * num2).toFixed(2);
+  }
+
   const onChangeEmailBox = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
   const onChangeInput = (event, id) => {
-    const { name, value } = event.target;
-    let current_id;
-
     const newFormData = formData.children.map(elem => {
       if (elem.id === id) {
-        current_id = elem.id;
-        elem = { ...elem, [name]: value };
+        elem = { ...elem, [event.target.name]: event.target.value };
       }
 
       return elem;
     })
 
-    const children = newFormData.map(elem => {
-      if (current_id === elem.id) {
-        let sum1 = +elem.cost_for_per_hour.slice(1);
-        let sum2 = +elem.total_time_in_week;
+    const result = { ...formData, children: newFormData };
 
-        let sum3 = +elem.cost_for_per_hour_extended.slice(1);
-        let sum4 = +elem.hours_count_extended;
-
-        return {
-          ...elem,
-          amount: `$${(sum1 * sum2).toFixed(2)}`,
-          amount_extended: `$${(sum3 * sum4).toFixed(2)}`
-        }
-      }
-    })
-
-    setFormData({ ...formData, children });
+    setFormData(result);
   }
 
   const calculateTotalAmount = () => {
     let sum = 0;
 
     formData.children.forEach(elem => {
-      let sum1 = +elem.amount?.slice(1);
-      let sum2 = +elem.amount_extended?.slice(1);
-
-      if (sum2 === 0) {
-        sum += sum1;
-      } else {
-        sum += sum1 * sum2;
+      if (elem.costHourExt === '-' || elem.hoursExt === '-') {
+        elem.costHourExt = '$0';
+        elem.hoursExt = 0;
       }
+
+      let sum1 = +elem.costHour.slice(1) * +elem.total_time_in_week;
+      let sum2 = +elem.costHourExt.slice(1) * +elem.hoursExt;
+
+      sum += sum1 + sum2;
     });
 
     return `$${sum.toFixed(2)}`;

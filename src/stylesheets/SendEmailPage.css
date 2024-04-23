@@ -142,6 +142,10 @@
     text-align: left;
 }
 
+.SendEmailPage .container table tbody th.total_head {
+    border-right: none;
+}
+
 .SendEmailPage .container table td {
     font-weight: normal;
     text-align: center;
@@ -189,22 +193,4 @@
 .SendEmailPage .confirm p {
     margin-bottom: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.SendEmailPage .total {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.SendEmailPage .total p {
-    padding: 10px;
-    font-size: 1.1rem;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.SendEmailPage .total p:last-child {
-    text-align: center;
-    width: 130px;
-    border-left: 2px solid;
 }

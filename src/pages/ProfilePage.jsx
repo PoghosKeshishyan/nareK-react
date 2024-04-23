@@ -74,6 +74,7 @@ export function ProfilePage() {
   @Folders
   ===============================================
   **/
+
   const handlerFile = async (file) => {
     if (file.dir) {
       const resopnse = await axios.get(`files?path=${files.path}/${file.name}`);
@@ -94,15 +95,9 @@ export function ProfilePage() {
     const sendingData = { path: files.path, foldername: `New folder (${files.files.length+1})` };
     await axios.post('files/add/folder', sendingData);
 
-    const newFolder = {
-      id: Date.now(),
-      dir: true,
-      size: 0,
-      name: `New folder (${files.files.length})`,
-    }
-
-    const result = [...files.files, newFolder];
-    setFiles({ ...files, files: result });
+    /* Loading files data */
+    const resopnse = await axios.get(`files?path=${files.path}`);
+    setFiles(resopnse.data);
   }
 
   const addFileHandler = async (event) => {

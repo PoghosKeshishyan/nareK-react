@@ -99,6 +99,7 @@ export function ClientPage() {
         event.preventDefault();
 
         children.forEach(async child => {
+            child.number_of_hours = parseInt(child.number_of_hours);
             await axios.put(`children/edit/${child.id}`, child);
         })
 
@@ -181,6 +182,18 @@ export function ClientPage() {
                                                 name='name'
                                                 value={child.name}
                                                 onChange={e => onChangeChildrenInput(e, child.id)}
+                                            />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Cost for Per Hour</td>
+                                        <td>
+                                            <input 
+                                              type="text" 
+                                              name='cost_for_per_hour'
+                                              value={child.cost_for_per_hour} 
+                                              onChange={e => onChangeChildrenInput(e, child.id)}
                                             />
                                         </td>
                                     </tr>

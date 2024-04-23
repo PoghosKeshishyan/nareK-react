@@ -47,26 +47,26 @@ export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChange
                 </div>
 
                 {
-                    formData.children.map((child, index) => (
-                        <div className="child" key={index}>
-                            <div className='client_info'>
-                                <p>Child's name: <b>{child.child_name}</b></p>
+                    formData.children.map((child, index, array) => {
+                        const isLastIteration = index === array.length - 1;
+                        
+                        return (
+                            <div className="child" key={index}>
+                                <div className='client_info'>
+                                    <p>Child's name: <b>{child.child_name}</b></p>
+                                </div>
+
+                                <SendEmailTable
+                                    child={child}
+                                    onChangeInput={onChangeInput}
+                                    squareNumbers={squareNumbers}
+                                    isLastIteration={isLastIteration}
+                                    calculateTotalAmount={calculateTotalAmount}
+                                />
                             </div>
-
-                            <SendEmailTable
-                                child={child}
-                                onChangeInput={onChangeInput}
-                                squareNumbers={squareNumbers}
-                            />
-                        </div>
-                    ))
+                        )
+                    })
                 }
-
-                <div className="total">
-                    <p>Total Due for Week:</p>
-                    <p>{formData.dates_interval}</p>
-                    <p>{calculateTotalAmount()}</p>
-                </div>
             </div>
 
             <textarea

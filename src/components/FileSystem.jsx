@@ -139,7 +139,7 @@ export function FileSystem({
                 }
             </div>
 
-                    <button className='btn' onClick={addFolderHandler}>+ Add folder</button>
+            <button className='btn' onClick={addFolderHandler}>+ Add folder</button>
 
             {
                 files.path && (

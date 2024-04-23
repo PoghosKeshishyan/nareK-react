@@ -2,7 +2,6 @@
     margin: 150px 50px;
     display: flex;
     align-items: flex-start;
-    gap: 5rem;
 }
 
 .StoryPage .btn.profile {
@@ -17,6 +16,7 @@
 .StoryPage table {
     width: 700px;
     border-collapse: collapse;
+    margin-right: 5rem;
     margin-bottom: 20px;
 }
 

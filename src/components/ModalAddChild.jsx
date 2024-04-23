@@ -36,11 +36,13 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
         parent_id: id,
         discharge: '-',
         number_of_hours: '',
+        cost_for_per_hour: '$',
         enrollment: today,
     });
 
     const onChangeInput = (event) => {
-        setFormData({ ...formData, [event.target.name]: event.target.value })
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value })
     }
 
     const submitHandler = async (event) => {
@@ -48,6 +50,12 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
 
         if (formData.number_of_hours === '0') {
             return alert('Number of hours must be a number greater than 0.');
+        }
+
+        if (formData.cost_for_per_hour[0] !== '$') {
+            let arr = formData.cost_for_per_hour.split('');
+            arr.unshift('$');
+            formData.cost_for_per_hour = arr.join('');
         }
 
         setLoading(true);
@@ -102,6 +110,18 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
                 </div>
 
                 <div className='form_item'>
+                    <p>Cost for per hour:</p>
+
+                    <input
+                        type='text'
+                        name='cost_for_per_hour'
+                        required
+                        value={formData.cost_for_per_hour}
+                        onChange={onChangeInput}
+                    />
+                </div>
+
+                <div className='form_item'>
                     <p>Date of birth:</p>
 
                     <input
@@ -120,12 +140,12 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
 
                     <input
                         type='text'
-                        name='enrollment'
                         ref={enrollmentPickerRef}
-                        required
                         placeholder='mm-dd-yyyy'
+                        name='enrollment'
                         value={formData.enrollment}
-                        onChange={onChangeInput}
+                        onInput={onChangeInput}
+                        required
                     />
                 </div>
 

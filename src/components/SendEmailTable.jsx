@@ -1,4 +1,4 @@
-export function SendEmailTable({ child, squareNumbers, onChangeInput}) {
+export function SendEmailTable({ child, isLastIteration, calculateTotalAmount, onChangeInput }) {
     return (
         <table className="SendEmailTable">
             <thead>
@@ -18,8 +18,8 @@ export function SendEmailTable({ child, squareNumbers, onChangeInput}) {
                     <td>
                         <input
                             type='text'
-                            name='numberWeeks'
-                            value={child.numberWeeks}
+                            name='number_of_weeks'
+                            value={child.number_of_weeks}
                             onChange={(e) => onChangeInput(e, child.id)}
                         />
                     </td>
@@ -28,12 +28,12 @@ export function SendEmailTable({ child, squareNumbers, onChangeInput}) {
                     <td>
                         <input
                             type='text'
-                            name='costHour'
-                            value={child.costHour}
+                            name='cost_for_per_hour'
+                            value={child.cost_for_per_hour}
                             onChange={(e) => onChangeInput(e, child.id)}
                         />
                     </td>
-                    <td>${squareNumbers(Number(child.total_time_in_week), Number(child.costHour.slice(1))).toString()}</td>
+                    <td>{child.amount}</td>
                 </tr>
 
                 <tr>
@@ -41,44 +41,38 @@ export function SendEmailTable({ child, squareNumbers, onChangeInput}) {
                     <td>
                         <input
                             type='text'
-                            name='numberWeeksExt'
-                            value={child.numberWeeksExt}
+                            name='number_of_weeks_extended'
+                            value={child.number_of_weeks_extended}
                             onChange={(e) => onChangeInput(e, child.id)}
                         />
                     </td>
                     <td>
                         <input
                             type='text'
-                            name='hoursExt'
-                            value={child.hoursExt}
+                            name='total_days_extended'
+                            value={child.total_days_extended}
                             onChange={(e) => onChangeInput(e, child.id)}
                         />
                     </td>
+                    <td>{child.hours_count_extended}</td>
                     <td>
                         <input
                             type='text'
-                            name='daysExt'
-                            value={child.daysExt}
+                            name='cost_for_per_hour_extended'
+                            value={child.cost_for_per_hour_extended}
                             onChange={(e) => onChangeInput(e, child.id)}
                         />
                     </td>
-                    <td>
-                        <input
-                            type='text'
-                            name='costHourExt'
-                            value={child.costHourExt}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type='text'
-                            name='amountExt'
-                            value={child.amountExt}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
+                    <td>{child.amount_extended}</td>
                 </tr>
+
+                {
+                    isLastIteration && <tr>
+                        <th className="total_head">Total Due for Week:</th>
+                        <td colSpan={4}>{child.dates}</td>
+                        <td>{calculateTotalAmount()}</td>
+                    </tr>
+                }
             </tbody>
         </table>
     )
