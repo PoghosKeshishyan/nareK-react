@@ -58,7 +58,7 @@ export function ModalAddClient({ setShowModal, loadingClients }) {
                 </div>
 
                 <div className='form_item'>
-                    <p>Tel.</p>
+                    <p>Telephone:</p>
 
                     <input
                         type='tel'
@@ -70,7 +70,7 @@ export function ModalAddClient({ setShowModal, loadingClients }) {
                 </div>
 
                 <div className='form_item'>
-                    <p>E-mail</p>
+                    <p>E-mail:</p>
 
                     <input
                         type='email'

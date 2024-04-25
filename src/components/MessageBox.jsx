@@ -27,7 +27,7 @@ export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChange
                     required
                     placeholder='Message...'
                     value={formData.message1}
-                    name='message'
+                    name='message1'
                     className="message"
                     onChange={onChangeEmailBox}
                 />
@@ -49,11 +49,11 @@ export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChange
                 {
                     formData.children.map((child, index, array) => {
                         const isLastIteration = index === array.length - 1;
-                        
+
                         return (
                             <div className="child" key={index}>
                                 <div className='client_info'>
-                                    <p>Child's name: <b>{child.child_name}</b></p>
+                                    <p>Child's name: <b>{child.name}</b></p>
                                 </div>
 
                                 <SendEmailTable
@@ -73,7 +73,7 @@ export function MessageBox({ formData, onChangeEmailBox, squareNumbers, onChange
                 required
                 placeholder='Message...'
                 value={formData.message2}
-                name='message'
+                name='message2'
                 className="message regards"
                 onChange={onChangeEmailBox}
             />

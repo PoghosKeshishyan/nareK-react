@@ -9,14 +9,17 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
                         {
                             elem.days.map(day => day.title && (
                                 <div className={`sub_item ${day.disabled ? 'active' : ''}`} key={day.id}>
-                                    <h3>{day.title}</h3>
+                                    <h3>
+                                        {day.title.split('/')[0]}
+                                        {day.title.split('/')[1] !== month && ` (${day.title.split('/')[1].slice(0, 3)})`}
+                                    </h3>
 
                                     <form>
                                         <input
                                             type='checkbox'
                                             name='completed'
                                             checked={day.completed}
-                                            onChange={() => onCheckDay(day.id, elem)}
+                                            onChange={() => onCheckDay(day.id, elem.id)}
                                         />
 
                                         <input
@@ -24,7 +27,7 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
                                             name='arrived'
                                             className='arrived'
                                             value={day.arrived}
-                                            onChange={e => onChangeInput(e, day.id, elem)}
+                                            onChange={e => onChangeInput(e, day.id, elem.id)}
                                         />
 
                                         <input
@@ -32,7 +35,7 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
                                             name='isGone'
                                             className='isGone'
                                             value={day.isGone}
-                                            onChange={e => onChangeInput(e, day.id, elem)}
+                                            onChange={e => onChangeInput(e, day.id, elem.id)}
                                         />
                                     </form>
                                 </div>
@@ -42,14 +45,14 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
 
                     <div className='actions'>
                         <div className='action_content'>
-                            <p>Total time in week: {elem.total_time_in_week} Hours</p>
+                            <p>Total time in week: <b>{elem.total_time_in_week}</b> Hours</p>
                             <p className='dates'>{weeks[index].dates}</p>
                         </div>
 
-                        <Link 
-                          className='btn'
-                          disabled={true}
-                          to={`/child/${childId}/${elem.week}/${month}/${year}/feedback`} 
+                        <Link
+                            className='btn'
+                            disabled={true}
+                            to={`/child/${childId}/${elem.week}/${month}/${year}/feedback`}
                         >
                             Email
                         </Link>

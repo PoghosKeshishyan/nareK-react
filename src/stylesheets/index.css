@@ -11,6 +11,7 @@
 @import './ModalAddClient.css';
 @import './ModalAddChild.css';
 @import './ModalPaymentConfirm.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
     margin: 0;
@@ -19,22 +20,23 @@
     outline: none;
     box-sizing: border-box;
     text-decoration: none;
-    font-family: 'Bell MT';
+    font-family: "Poppins", sans-serif;
 }
 
 :root {
     --white: #ffffff;
+    --white-f2: #f2f2f2;
+    --white-dd: #dddddd;
+    --white-f9: #f9f9f9;
     --yellow: #FFC000;
     --black: #000000;
-    --blue: #bfdbfe;
-    --sky: #0284c7;
-    --red: #ff0000;
     --light-yellow: #FFF2CC;
-    --alpha-blue: #96d4d466;
     --slate-200: #e2e8f0;
     --slate-300: #cbd5e1;
     --slate-700: #334155;
     --alpha-slate: #2c3746b1;
+    --poppins: "Poppins", sans-serif;
+    --courier: 'Courier New', Courier, monospace;
 }
 
 body {
@@ -42,23 +44,50 @@ body {
 }
 
 .btn {
-    cursor: pointer;
-    padding: 5px 10px;
+    background: var(--light-yellow);
     color: var(--black);
-    font-family: Arial;
-    font-size: 1rem;
-    background: var(--slate-300);
     border: 1px solid var(--slate-700);
-    transition: all .2s linear;
+    padding: 5px 10px;
+    font-family: var(--poppins);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: .2rem .3rem .5rem var(--slate-300);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.btn svg {
+    margin-right: 10px;
+}
+
+.btn.home {
+    position: fixed;
+    top: 5%;
+    left: 1%;
+    font-size: 1.2rem;
+    z-index: 1001;
+}
+
+.btn.back {
+    position: fixed;
+    top: 5%;
+    left: 4.5%;
+    font-size: 1.2rem;
+    z-index: 1001;
+}
+
+.btn.home svg,
+.btn.back svg {
+    margin-right: 0;
+}
+
 
 .btn:hover {
     color: var(--white);
     background: var(--slate-700);
 }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.btn:active {
+    color: var(--black);
+    background: var(--slate-300);
 }

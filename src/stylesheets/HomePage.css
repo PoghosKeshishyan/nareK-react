@@ -1,51 +1,82 @@
 .HomePage {
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
-    margin: 130px 50px 0 50px;
+    margin-top: 160px;
 }
 
 .HomePage h2 {
-    width: 100%;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 400;
     padding: 5px;
-    font-size: 2rem;
-    text-align: center;
-    background: var(--yellow);
+    box-shadow: 0 .5rem .5rem var(--slate-300);
 }
 
-.HomePage table {
-    width: 100%;
-    text-align: center;
-}
-
-.HomePage table thead {
-    background: var(--blue);
-}
-
-.HomePage table tr {
-    cursor: pointer;
-    border: 1px solid var(--slate-700);
-}
-
-.HomePage table, th, td {
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border-collapse: collapse;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.HomePage .btn.client {
-    margin-top: 20px;
+.HomePage h2 svg {
+    margin-right: 10px;
+    font-size: 1.5rem;
 }
 
 .HomePage .provider {
     margin: 0 6rem;
 }
 
-.HomePage .provider table {
+.HomePage table {
+    box-shadow: 0 .3rem .5rem var(--slate-300);
+}
+
+.HomePage .clientTable {
+    text-align: center;
+}
+
+.HomePage .clientTable thead {
+    color: var(--white);
+    background: var(--slate-700);
+}
+
+.HomePage .clientTable tbody tr {
+    cursor: pointer;
+    border: 1px solid var(--slate-700);
+}
+
+.HomePage .clientTable, th, td {
+    padding: 10px 20px;
+    border-collapse: collapse;
+}
+
+.HomePage .btn.client {
+    margin-top: 20px;
+}
+
+.HomePage .HomePage .providerTable {
     text-align: left;
 }
 
-.HomePage .provider table tr {
-    cursor: auto;
+.HomePage .providerTable {
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.HomePage .providerTable th,
+.HomePage .providerTable td {
+    text-align: left;
+    border-bottom: 1px solid var(--white-dd);
+}
+
+.HomePage .providerTable th {
+    background-color: var(--white-f2);
+}
+
+.HomePage .providerTable td {
+    background-color: var(--white);
+}
+
+.HomePage .providerTable tbody tr:nth-child(even) td {
+    background-color: var(--white-f9);
+}
+
+.HomePage .btn.provider {
+    margin: 0;
 }

@@ -8,13 +8,15 @@ header {
     height: 110px;
     align-items: center;
     justify-content: space-between;
-    background: var(--yellow);
+    background: var(--white);
+    box-shadow: 0 .5rem .5rem var(--slate-300);
 }
 
 header h1 {
-    width: 90%;
+    width: 100%;
     text-align: center;
-    font-size: 4rem;
+    font-size: 3.5rem;
+    font-weight: 300;
 }
 
 header .logo {
@@ -23,12 +25,6 @@ header .logo {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-}
-
-@media (max-width: 1300px) {
-    header h1 {
-        font-size: 3.5rem;
-    }
 }
 
 @media (max-width: 1150px) {

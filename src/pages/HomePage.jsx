@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ModalAddClient } from '../components/ModalAddClient';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faGear, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import axios from '../axios';
 
 export function HomePage() {
@@ -36,7 +38,7 @@ export function HomePage() {
             <div className='client'>
                 <h2>Clients</h2>
 
-                <table>
+                <table className='clientTable'>
                     <thead>
                         <tr>
                             <th>N</th>
@@ -89,14 +91,18 @@ export function HomePage() {
                 </table>
 
                 <button className='btn client' onClick={() => setShowModal(true)}>
-                    + Add client
+                    <FontAwesomeIcon icon={faCirclePlus} />
+                    Add client
                 </button>
             </div>
 
             <div className='provider'>
-                <h2>Provider</h2>
+                <h2>
+                    <FontAwesomeIcon icon={faUser} />
+                    Provider
+                </h2>
 
-                <table>
+                <table className='providerTable'>
                     <tbody>
                         <tr>
                             <th>Name</th>
@@ -125,7 +131,8 @@ export function HomePage() {
                 />
             }
 
-            <Link to='/profile' className='btn p'>
+            <Link to='/profile' className='btn provider'>
+                <FontAwesomeIcon icon={faGear} />
                 Profile page
             </Link>
         </div>

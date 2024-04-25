@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ModalAddChild } from '../components/ModalAddChild';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faCircleLeft, faArrowsRotate, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
 import axios from '../axios';
+import 'flatpickr/dist/flatpickr.min.css';
 
 export function ClientPage() {
     const [parent, setParent] = useState({ name: '', address: '', telephone: '', email: '' });
@@ -108,14 +110,28 @@ export function ClientPage() {
 
     return (
         <div className='ClientPage'>
-            <Link to='/' className='btn home'>Home</Link>
+            <Link to='/' className='btn home'>
+                <FontAwesomeIcon icon={faHouse} />
+            </Link>
+
+            <Link to={-1} className='btn back'>
+                <FontAwesomeIcon icon={faCircleLeft} />
+            </Link>
+
+            {
+                showModal && <ModalAddChild
+                    id={id}
+                    setShowModal={setShowModal}
+                    loadingData={loadingData}
+                />
+            }
 
             <div className='info'>
                 <form onSubmit={parentSubmitHandler} className='parentsForm'>
                     <table>
                         <tbody>
                             <tr>
-                                <td>Parent's name:</td>
+                                <th>Parent's name:</th>
                                 <td>
                                     <input
                                         type='text'
@@ -127,7 +143,7 @@ export function ClientPage() {
                             </tr>
 
                             <tr>
-                                <td>Address:</td>
+                                <th>Address:</th>
                                 <td>
                                     <input
                                         type='text'
@@ -139,7 +155,7 @@ export function ClientPage() {
                             </tr>
 
                             <tr>
-                                <td>Tel.</td>
+                                <th>Telephone:</th>
                                 <td>
                                     <input
                                         type='text'
@@ -151,7 +167,7 @@ export function ClientPage() {
                             </tr>
 
                             <tr>
-                                <td>E-mail:</td>
+                                <th>E-mail:</th>
                                 <td>
                                     <input
                                         type='text'
@@ -165,7 +181,12 @@ export function ClientPage() {
                     </table>
 
                     {
-                        showSubmitBtnParent && <input type='submit' value='Update' className='btn' />
+                        showSubmitBtnParent && (
+                            <button className='btn' type='submit'>
+                                <FontAwesomeIcon icon={faArrowsRotate} />
+                                Update
+                            </button>
+                        )
                     }
                 </form>
 
@@ -175,7 +196,7 @@ export function ClientPage() {
                             <table key={index}>
                                 <tbody>
                                     <tr>
-                                        <td>Child's name:</td>
+                                        <th>Child's name:</th>
                                         <td>
                                             <input
                                                 type='text'
@@ -187,19 +208,19 @@ export function ClientPage() {
                                     </tr>
 
                                     <tr>
-                                        <td>Cost for Per Hour</td>
+                                        <th>Cost for Per Hour</th>
                                         <td>
-                                            <input 
-                                              type="text" 
-                                              name='cost_for_per_hour'
-                                              value={child.cost_for_per_hour} 
-                                              onChange={e => onChangeChildrenInput(e, child.id)}
+                                            <input
+                                                type="text"
+                                                name='cost_for_per_hour'
+                                                value={child.cost_for_per_hour}
+                                                onChange={e => onChangeChildrenInput(e, child.id)}
                                             />
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td>Date of birth:</td>
+                                        <th>Date of birth:</th>
                                         <td>
                                             <input
                                                 type='text'
@@ -222,7 +243,7 @@ export function ClientPage() {
                                     </tr>
 
                                     <tr>
-                                        <td>Date of enrollment:</td>
+                                        <th>Date of enrollment:</th>
                                         <td>
                                             <input
                                                 type='text'
@@ -245,7 +266,7 @@ export function ClientPage() {
                                     </tr>
 
                                     <tr>
-                                        <td>Date of discharge:</td>
+                                        <th>Date of discharge:</th>
                                         <td>
                                             <input
                                                 type='text'
@@ -273,22 +294,20 @@ export function ClientPage() {
                     }
 
                     {
-                        showSubmitBtnChild && <input type='submit' value='Update' className='btn' />
+                        showSubmitBtnChild && (
+                            <button className='btn' type='submit'>
+                                <FontAwesomeIcon icon={faArrowsRotate} />
+                                Update
+                            </button>
+                        )
                     }
                 </form>
 
                 <button className='btn' onClick={() => setShowModal(true)}>
-                    + Add child
+                    <FontAwesomeIcon icon={faCirclePlus} />
+                    Add child
                 </button>
             </div>
-
-            {
-                showModal && <ModalAddChild
-                    id={id}
-                    setShowModal={setShowModal}
-                    loadingData={loadingData}
-                />
-            }
 
             <div className='months'>
                 <div className='title'>

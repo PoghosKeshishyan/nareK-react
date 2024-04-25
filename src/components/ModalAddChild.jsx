@@ -52,6 +52,10 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
             return alert('Number of hours must be a number greater than 0.');
         }
 
+        if (!formData.birth || formData.cost_for_per_hour === '$') {
+            return;
+        }
+
         if (formData.cost_for_per_hour[0] !== '$') {
             let arr = formData.cost_for_per_hour.split('');
             arr.unshift('$');
