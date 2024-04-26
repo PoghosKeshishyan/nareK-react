@@ -67,7 +67,7 @@ export function SendEmailTable({ child, isLastIteration, calculateTotalAmount, o
                 </tr>
 
                 {
-                    isLastIteration && <tr>
+                    isLastIteration && <tr className="total">
                         <th className="total_head">Total Due for Week:</th>
                         <td colSpan={4}>{child.dates}</td>
                         <td>{calculateTotalAmount()}</td>

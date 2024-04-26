@@ -4,7 +4,7 @@ import { MessageBox } from '../components/MessageBox';
 import { Loading } from '../components/Loading';
 import { ModalPaymentConfirm } from '../components/ModalPaymentConfirm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faCircleLeft, faPaperPlane, faDownload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import html2pdf from 'html2pdf.js';
 import axios from '../axios';
 
@@ -43,40 +43,40 @@ export function SendEmailPage() {
       const allChildrenParent = await axios.get(
         `week/parent/${parentId}?week=${week}&month=${month}&year=${year}`
       );
-  
+
       // filter childs which did not come during the week
       const arr = allChildrenParent.data.filter(el => el.total_days && el.total_time_in_week);
-  
+
       // the clicked child is placed at the beginning of the array
       const foundIndex = arr.findIndex(item => item.child_id === responseSingleChild.data.id);
-  
+
       let result;
-  
+
       if (foundIndex !== -1) {
         const foundElement = arr[foundIndex];
         result = [foundElement, ...arr.slice(0, foundIndex), ...arr.slice(foundIndex + 1)];
       } else {
         result = arr;
       }
-  
+
       const childrenData = await Promise.all(result.map(async child => {
         const response = await axios.get(`children/${child.child_id}`);
         const currentChild = response.data;
-  
+
         const numberOfHours = currentChild.number_of_hours;
         let hours_count = child.total_time_in_week;
         let hours_count_extended = 0;
-  
+
         if (hours_count > numberOfHours) {
           hours_count_extended = hours_count - numberOfHours;
           hours_count = numberOfHours;
         }
-  
+
         let amount = squareNumbers(hours_count, currentChild.cost_for_per_hour.slice(1));
         let amountExtended = squareNumbers(hours_count_extended, currentChild.cost_for_per_hour.slice(1));
-  
+
         const cost_for_per_hour_extended = hours_count_extended > 0 ? currentChild.cost_for_per_hour : '$0';
-  
+
         const objData = {
           number_of_weeks: '1',
           number_of_weeks_extended: '0',
@@ -87,13 +87,13 @@ export function SendEmailPage() {
           hours_count,
           hours_count_extended: hours_count_extended.toFixed(1),
         };
-  
+
         return { ...child, ...objData, ...currentChild };
       }));
-  
+
       const message1 = 'Dear parent, we kindly request that you make a payment in accordance with the details provided in this bill.';
       const message2 = `Kind regards, \n${responseProvider.data[0].name}`;
-  
+
       setFormData({
         title: responseHeader.data[0].title,
         logo: responseHeader.data[0].logo,
@@ -158,41 +158,39 @@ export function SendEmailPage() {
       if (sum2 === 0) {
         sum += sum1;
       } else {
-        sum += sum1 * sum2;
+        sum += sum1 + sum2;
       }
     });
 
     return `$${sum.toFixed(2)}`;
   }
 
-  const handleConvertToPDF = () => {
+  const convertToPdfAndDownload = async () => {
     // Hide the button before creating the PDF
-    const downloadPdfButton = document.querySelector('.SendEmailPage .btn.download_pdf');
-    if (downloadPdfButton) {
-      downloadPdfButton.style.display = 'none';
-    }
+    const actions = document.querySelector('.SendEmailPage form .actions');
+    actions.style.display = 'none';
 
     // Then create the PDF
-    const sendEmailPageDiv = document.querySelector('.SendEmailPage');
+    const messageBox = document.querySelector('.SendEmailPage');
 
-    html2pdf().from(sendEmailPageDiv).set({
-      filename: `${formData.subject}.pdf`,
-      pagebreak: { mode: 'avoid-all' },
-      margin: [-75, 5, 0, 0],
-      html2canvas: { scale: 2 },
-      jsPDF: { format: 'a4', orientation: 'landscape' }
-    }).save();
-
-    // Restore the visibility of the button after creating the PDF (if necessary)
-    if (downloadPdfButton) {
-      setTimeout(() => {
-        downloadPdfButton.style.display = 'block'; // Or 'inline-block', depending on the original button style
+    html2pdf()
+      .from(messageBox)
+      .set({
+        filename: `${formData.subject}.pdf`,
+        pagebreak: { mode: 'avoid-all' },
+        margin: [-64, 0, 0, -25],
+        html2canvas: { scale: 2 },
+        jsPDF: { format: 'a4', orientation: 'landscape' }
       })
-    }
+      .save();
+
+    // Restore the visibility of the button after creating the PDF
+    setTimeout(() => {
+      actions.style.display = 'flex';
+    }) 
   };
 
-  const submitHandler = async (event) => {
-    event.preventDefault();
+  const formSubmitHandler = async () => {
     setLoading(true);
 
     await axios.post('send-email/coupon', formData)
@@ -213,7 +211,7 @@ export function SendEmailPage() {
       year,
       payment_date,
       amount: calculateTotalAmount(),
-      parent_name: formData.parent_name,
+      parent_id: formData.parent_id,
     };
 
     await axios.post('story/add', data);
@@ -228,12 +226,12 @@ export function SendEmailPage() {
       <Link to={-1} className='btn back'>
         <FontAwesomeIcon icon={faCircleLeft} />
       </Link>
-      
+
       {
         loading && <Loading loadingMessage={'Sending message'} />
       }
 
-      <form onSubmit={submitHandler}>
+      <form onSubmit={e => e.preventDefault()}>
         <MessageBox
           formData={formData}
           squareNumbers={squareNumbers}
@@ -242,22 +240,24 @@ export function SendEmailPage() {
           calculateTotalAmount={calculateTotalAmount}
         />
 
-        <input type='submit' value='Submit' className='btn email' />
+        <div className="actions">
+          <button className='btn' onClick={formSubmitHandler}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+            Send to email
+          </button>
+
+          <button className='btn' onClick={convertToPdfAndDownload}>
+            <FontAwesomeIcon icon={faDownload} />
+            Download to pdf nkar
+          </button>
+
+          <button className='btn' onClick={() => setShowModal(true)}>
+            <FontAwesomeIcon icon={faCheck} />
+            Payment Confirmation
+          </button>
+        </div>
       </form>
 
-      <button className='btn download_pdf' onClick={handleConvertToPDF}>
-        <i className="fa-solid fa-download"></i>
-        Download to pdf
-      </button>
-
-      <div className='confirm'>
-        <p>Payment Confirmation</p>
-
-        <button className='btn' onClick={() => setShowModal(true)}>
-          Confirm
-        </button>
-      </div>
-      
       {
         showModal && (
           <ModalPaymentConfirm

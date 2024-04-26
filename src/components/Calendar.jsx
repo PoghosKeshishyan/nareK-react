@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { faAt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInput }) {
     return (
@@ -45,7 +47,7 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
 
                     <div className='actions'>
                         <div className='action_content'>
-                            <p>Total time in week: <b>{elem.total_time_in_week}</b> Hours</p>
+                            <p>Total time in week: <b>{elem.total_time_in_week}</b> hours</p>
                             <p className='dates'>{weeks[index].dates}</p>
                         </div>
 
@@ -54,6 +56,7 @@ export function Calendar({ childId, month, year, weeks, onCheckDay, onChangeInpu
                             disabled={true}
                             to={`/child/${childId}/${elem.week}/${month}/${year}/feedback`}
                         >
+                            <FontAwesomeIcon icon={faAt} />
                             Email
                         </Link>
                     </div>

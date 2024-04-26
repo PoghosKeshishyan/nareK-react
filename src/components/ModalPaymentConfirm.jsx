@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Loading } from "./Loading";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import axios from "../axios";
 
 export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handlerConfirmPayment }) {
@@ -15,7 +17,8 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handl
     }, [])
 
     const loadingData = async () => {
-        const response = (await axios.get(`parent/${parentId}`)).data;
+        const responseParent = (await axios.get(`parent/${parentId}`)).data;
+        const responseProvider = (await axios.get('provider')).data[0];
         
         const today = new Date().toLocaleDateString('en-US', {
             year: 'numeric',
@@ -24,10 +27,10 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handl
         }).replace(/\//g, '-');
 
         setFormData({
-            parent_id: response.id,
-            parent_email: response.email,
-            subject: `Payment Confirmation for ${response.name} for Mrs. N's Child Care/Preschool`,
-            message: `Mrs. N’s Fireflies Child Care/Preschool \nLic. 343625479 \n\nThank you for your payment! \nYour bill payment has been successfully received. \n\nName: ${response.name} \nPayment Date: ${today} \nPayment Amount: ${totalAmount()}`,
+            parent_email: responseParent.email,
+            provider_email: responseProvider.email,
+            subject: `Payment Confirmation for ${responseParent.name} for Mrs. N's Child Care/Preschool`,
+            message: `Mrs. N’s Fireflies Child Care/Preschool \nLic. 343625479 \n\nThank you for your payment! \nYour bill payment has been successfully received. \n\nName: ${responseParent.name} \nPayment Date: ${today} \nPayment Amount: ${totalAmount()}`,
         })
     }
 
@@ -53,7 +56,7 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handl
                 loading && <Loading loadingMessage={'Sending message'} />
             }
 
-            <form onSubmit={submitHandler}>
+            <form onSubmit={submitHandler} className="paymentForm">
                 <h2 className='title'>
                     Payment Confirmation
 
@@ -97,7 +100,10 @@ export function ModalPaymentConfirm({ setShowModal, parentId, totalAmount, handl
                     />
                 </label>
 
-                <input type="submit" value="Send to email" className="btn" />
+                <button className="btn">
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                    Send to email
+                </button>
             </form>
         </div>
     )
