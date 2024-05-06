@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FileSystem } from '../components/FileSystem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from '../axios';
 
 export function ProfilePage() {
   const [provider, setProvider] = useState({ name: '', address: '', telephone: '', email: '' });
   const [files, setFiles] = useState({});
-  const [images, setImages] = useState({})
   const [header, setHeader] = useState({ title: '', logo: '' });
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
   const [showSubmitBtnProvider, setShowSubmitBtnProvider] = useState(false);
@@ -29,9 +30,6 @@ export function ProfilePage() {
 
     const responseFiles = await axios.get('files');
     setFiles(responseFiles.data);
-
-    const responseImages = await axios.get('files/images');
-    setImages(responseImages.data);
   };
 
   const onChangeInput = (event) => {
@@ -92,7 +90,7 @@ export function ProfilePage() {
   }
 
   const addFolderHandler = async () => {
-    const sendingData = { path: files.path, foldername: `New folder (${files.files.length+1})` };
+    const sendingData = { path: files.path, foldername: `New folder (${files.files.length + 1})` };
     await axios.post('files/add/folder', sendingData);
 
     /* Loading files data */
@@ -149,7 +147,13 @@ export function ProfilePage() {
 
   return (
     <div className='ProfilePage'>
-      <Link to='/' className='btn home'>Home</Link>
+      <Link to='/' className='btn home'>
+        <FontAwesomeIcon icon={faHouse} />
+      </Link>
+
+      <Link to={-1} className='btn back'>
+        <FontAwesomeIcon icon={faCircleLeft} />
+      </Link>
 
       <div className='edit_zone'>
         <div className='editProfile'>
@@ -238,7 +242,6 @@ export function ProfilePage() {
 
       <FileSystem
         files={files}
-        images={images}
         handlerFile={handlerFile}
         activeFileId={activeFileId}
         keyDownActive={keyDownActive}

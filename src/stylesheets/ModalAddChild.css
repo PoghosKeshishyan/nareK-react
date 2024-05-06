@@ -15,24 +15,24 @@
     top: 120px;
     left: 50%;
     z-index: 1002;
-    width: 500px;
+    width: 600px;
     background: var(--white);
     transform: translateX(-50%);
 }
 
-.ModalAddChild form .title {
+.ModalAddChild .title {
     position: relative;
-    background: var(--yellow);
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0 0;
+    padding: 5px 0;
+    background: var(--slate-200);
 }
 
-.ModalAddChild form .close_modal {
+.ModalAddChild .close_modal {
     position: absolute;
     right: 20px;
     cursor: pointer;
     -webkit-text-stroke: 1px;
-    font-size: 2rem;
 }
 
 .ModalAddChild form .form_item {
@@ -40,22 +40,22 @@
     align-items: center;
     margin: 10px 20px;
     padding: 3px 5px;
-    border: 1px solid var(--sky);
+    border: 1px solid var(--slate-200);
 }
 
 .ModalAddChild form .form_item p {
-    width: 400px;
-    font-size: 1.1rem;
+    width: 500px;
+    font-size: 1rem;
     text-align: left;
-    border-right: 1px solid;
+    padding-right: 20px;
+    border-right: 1px solid var(--slate-200);
 }
 
 .ModalAddChild form .form_item input {
     width: 100%;
     margin-left: 10px;
     padding: 5px;
-    font-size: 1.1rem;
-    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
 }
 
 .ModalAddChild form .form_item:last-child {
@@ -67,5 +67,5 @@
 .ModalAddChild form .form_item:last-child input {
     width: auto;
     font-size: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px 20px;
 }

@@ -1,3 +1,5 @@
+import { API_URL } from '../config';
+
 export function Header({ header }) {
   return (
     <header>
@@ -5,7 +7,7 @@ export function Header({ header }) {
 
       <div 
         className='logo'
-        style={{backgroundImage: `url(http://localhost:8000/${header.logo})`}}
+        style={{backgroundImage: `url(${API_URL}${header.logo})`}}
       />
     </header>
   )

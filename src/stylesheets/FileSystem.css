@@ -1,117 +1,84 @@
 .FileSystem {
-    width: 620px;
+    width: 450px;
     padding: 20px;
+    margin: 0 8rem;
     position: relative;
     user-select: none;
-}
-
-.FileSystem .currentLevel {
-    font-family: 'Lucida Sans';
-    padding-bottom: 10px;
-    text-align: end;
-    border-bottom: 2px solid var(--slate-300);
 }
 
 .FileSystem .previous {
     position: absolute;
     top: 0;
-    font-size: 1.1rem;
-    background: var(--yellow);
-    border: 3px solid var(--yellow);
-    width: 30px;
-    height: 30px;
+    font-size: 1.3rem;
+    width: 35px;
+    height: 33px;
     line-height: 30px;
     border-radius: 50%;
     text-align: center;
     cursor: pointer;
-    transition: all .2s linear;
+    color: var(--slate-700);
     -webkit-text-stroke: .3px;
+    transition: all .2s linear;
+    border: 3px solid var(--slate-700);
 }
 
 .FileSystem .previous:hover {
-    background: var(--white);
+    color: var(--white);
+    background: var(--slate-700);
 }
 
 .FileSystem .empty_folder {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin: 55px 0 0 0;
+    margin: 40px 0 20px 10px;
 }
 
 .FileSystem .empty_folder p {
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.FileSystem .empty_folder img {
-    width: 100px;
+    font-size: 1.3rem;
 }
 
 .FileSystem .files-container {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding-top: 25px;
-    gap: 1rem;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 .FileSystem .files-container .file {
-    width: 130px;
-    text-align: center;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
     position: relative;
     font-size: 1.1rem;
     padding: 5px 0;
 }
 
-.FileSystem .files-container .file.active {
-    background: var(--sky);
+.FileSystem .files-container .file .folder,
+.FileSystem .files-container .file .file {
+    font-size: 2rem;
+    margin-right: 10px;
+    padding-left: 10px;
+    color: var(--yellow);
+}
+
+.FileSystem .files-container .file .file {
+    color: var(--slate-700);
+    padding: 0 0 0 15px;
+    font-size: 2rem;
+}
+
+.FileSystem .files-container .file.active,
+.FileSystem .files-container .file.active svg {
     color: var(--white);
-}
-
-.FileSystem .files-container .file .delete_file {
-    position: absolute;
-    right: 5px;
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    padding: 0;
-    line-height: 19px;
-    font-size: 1.1rem;
-    color: var(--white);
-    -webkit-text-stroke: 1px;
-    border-radius: 50%;
-    background: var(--red);
-    cursor: pointer;
-}
-
-.FileSystem .files-container .file img {
-    width: 100px;
-    height: 80px;
-    margin: 11px 0;
-}
-
-.FileSystem .files-container .file img.file {
-    width: 90px;
-    height: 100px;
-    margin: 5px 0 0 0;
-}
-
-.FileSystem .files-container .file p {
-    font-size: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+    background: var(--blue);
 }
 
 .FileSystem .files-container .file input {
-    font-size: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    width: 95%;
+    width: 130%;
+    font-size: 1.1rem;
 }
 
 .FileSystem .btn {
     display: inline-block;
-    margin: 35px 5px 10px 5px;
+    margin: 0 5px 10px 10px;
     font-size: 1rem;
 }
 

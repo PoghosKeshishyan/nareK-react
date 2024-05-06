@@ -208,12 +208,37 @@ export function ClientPage() {
                                     </tr>
 
                                     <tr>
-                                        <th>Cost for Per Hour</th>
+                                        <th>Total week hours based on the contract/agreement:</th>
+                                        <td>
+                                            <input
+                                                type='number'
+                                                name='number_of_hours'
+                                                required
+                                                value={child.number_of_hours}
+                                                onChange={e => onChangeChildrenInput(e, child.id)}
+                                            />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Cost for Per Hour:</th>
                                         <td>
                                             <input
                                                 type="text"
                                                 name='cost_for_per_hour'
                                                 value={child.cost_for_per_hour}
+                                                onChange={e => onChangeChildrenInput(e, child.id)}
+                                            />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Cost for extended minutes:</th>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                name='cost_for_extended_minutes'
+                                                value={child.cost_for_extended_minutes}
                                                 onChange={e => onChangeChildrenInput(e, child.id)}
                                             />
                                         </td>

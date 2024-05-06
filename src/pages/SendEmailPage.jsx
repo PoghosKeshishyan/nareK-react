@@ -5,6 +5,7 @@ import { Loading } from '../components/Loading';
 import { ModalPaymentConfirm } from '../components/ModalPaymentConfirm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faCircleLeft, faPaperPlane, faDownload, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { API_URL } from "../config";
 import html2pdf from 'html2pdf.js';
 import axios from '../axios';
 
@@ -32,6 +33,33 @@ export function SendEmailPage() {
 
     return (num1 * num2).toFixed(2);
   }
+
+  const calculateTotalExtendedDays = async (child_id, number_of_hours) => {
+    try {
+      const response = (await axios.get(`week/child/${child_id}?month=${month}&year=${year}`)).data;
+      const result = response.filter(el => el.week === parseInt(week))[0];
+      let countExtendedDays = 0;
+      let interval = 0;
+
+      result.days.forEach(day => {
+        if (day.arrived && day.isGone) {
+          const arrivedTime = new Date(`2024-01-01T${day.arrived}`);
+          const isGoneTime = new Date(`2024-01-01T${day.isGone}`);
+          const intervalHours = (isGoneTime - arrivedTime) / (1000 * 60 * 60);
+          interval += intervalHours;
+
+          if (interval.toFixed(2) > number_of_hours) {
+            countExtendedDays++;
+          }
+        }
+      });
+      
+      return countExtendedDays;
+    } catch (error) {
+      console.error('Error calculating extended days:', error);
+      return 0;
+    }
+  };
 
   const loadingData = async () => {
     try {
@@ -66,23 +94,27 @@ export function SendEmailPage() {
         const numberOfHours = currentChild.number_of_hours;
         let hours_count = child.total_time_in_week;
         let hours_count_extended = 0;
+        let number_of_weeks_extended = 0;
+        let total_days_extended = 0;
 
         if (hours_count > numberOfHours) {
           hours_count_extended = hours_count - numberOfHours;
           hours_count = numberOfHours;
+          number_of_weeks_extended = 1;
+          total_days_extended = await calculateTotalExtendedDays(child.child_id, currentChild.number_of_hours);
         }
 
         let amount = squareNumbers(hours_count, currentChild.cost_for_per_hour.slice(1));
-        let amountExtended = squareNumbers(hours_count_extended, currentChild.cost_for_per_hour.slice(1));
+        let amountExtended = squareNumbers(hours_count_extended, currentChild.cost_for_extended_minutes.slice(1));
 
-        const cost_for_per_hour_extended = hours_count_extended > 0 ? currentChild.cost_for_per_hour : '$0';
+        const cost_for_per_hour_extended = hours_count_extended > 0 ? currentChild.cost_for_extended_minutes : '$0';
 
         const objData = {
           number_of_weeks: '1',
-          number_of_weeks_extended: '0',
+          number_of_weeks_extended,
           amount: `$${amount}`,
           amount_extended: `$${amountExtended}`,
-          total_days_extended: '0',
+          total_days_extended,
           cost_for_per_hour_extended,
           hours_count,
           hours_count_extended: hours_count_extended.toFixed(1),
@@ -116,88 +148,78 @@ export function SendEmailPage() {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
-  const onChangeInput = (event, id) => {
-    const { name, value } = event.target;
-    let current_id;
-
-    const newFormData = formData.children.map(elem => {
-      if (elem.id === id) {
-        current_id = elem.id;
-        elem = { ...elem, [name]: value };
-      }
-
-      return elem;
-    })
-
-    const children = newFormData.map(elem => {
-      if (current_id === elem.id) {
-        let sum1 = +elem.cost_for_per_hour.slice(1);
-        let sum2 = +elem.total_time_in_week;
-
-        let sum3 = +elem.cost_for_per_hour_extended.slice(1);
-        let sum4 = +elem.hours_count_extended;
-
-        return {
-          ...elem,
-          amount: `$${(sum1 * sum2).toFixed(2)}`,
-          amount_extended: `$${(sum3 * sum4).toFixed(2)}`
-        }
-      }
-    })
-
-    setFormData({ ...formData, children });
-  }
-
   const calculateTotalAmount = () => {
     let sum = 0;
 
     formData.children.forEach(elem => {
       let sum1 = +elem.amount?.slice(1);
       let sum2 = +elem.amount_extended?.slice(1);
-
-      if (sum2 === 0) {
-        sum += sum1;
-      } else {
-        sum += sum1 + sum2;
-      }
+      sum += sum1 + sum2;
     });
 
     return `$${sum.toFixed(2)}`;
   }
 
   const convertToPdfAndDownload = async () => {
-    // Hide the button before creating the PDF
-    const actions = document.querySelector('.SendEmailPage form .actions');
-    actions.style.display = 'none';
+    try {
+      const actions = document.querySelector('.SendEmailPage form .actions');
+      actions.style.display = 'none';
 
-    // Then create the PDF
-    const messageBox = document.querySelector('.SendEmailPage');
+      const messageBox = document.querySelector('.SendEmailPage');
 
-    html2pdf()
-      .from(messageBox)
-      .set({
-        filename: `${formData.subject}.pdf`,
-        pagebreak: { mode: 'avoid-all' },
-        margin: [-64, 0, 0, -25],
-        html2canvas: { scale: 2 },
-        jsPDF: { format: 'a4', orientation: 'landscape' }
-      })
-      .save();
+      const response = await fetch(`${API_URL}${formData.logo}`);
+      const blob = await response.blob();
 
-    // Restore the visibility of the button after creating the PDF
-    setTimeout(() => {
-      actions.style.display = 'flex';
-    }) 
+      const imgURL = URL.createObjectURL(blob);
+
+      html2pdf()
+        .from(messageBox)
+        .set({
+          filename: `${formData.subject}.pdf`,
+          pagebreak: { mode: 'avoid-all' },
+          margin: [-65, 0, 0, -25],
+          html2canvas: { scale: 2 },
+          jsPDF: { format: 'a4', orientation: 'landscape' }
+        })
+        .toPdf()
+        .get('pdf')
+        .then(pdf => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;      // 883
+            canvas.height = img.height;    // 837
+            ctx.drawImage(img, 0, 0);
+            const imgData = canvas.toDataURL('image/jpeg');
+
+            // Adjust coordinates and dimensions as needed
+            pdf.addImage(imgData, 'JPEG', 249, 17, 30, 30);
+            pdf.save(`${formData.subject}.pdf`);
+
+            actions.style.display = 'flex';
+          };
+
+          // Set the image source after the onload event to load it
+          img.src = imgURL;
+        });
+    } catch (error) {
+      console.error('Ошибка при преобразовании в PDF:', error);
+    }
   };
 
   const formSubmitHandler = async () => {
     setLoading(true);
 
-    await axios.post('send-email/coupon', formData)
-      .then(res => {
-        setLoading(false);
-        alert(res.data.message);
-      });
+    try {
+      await axios.post('send-email/coupon', formData)
+        .then(res => {
+          setLoading(false);
+          alert(res.data.message);
+        });
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   const handlerConfirmPayment = async () => {
@@ -222,7 +244,9 @@ export function SendEmailPage() {
       <Link to='/' className='btn home'>
         <FontAwesomeIcon icon={faHouse} />
       </Link>
-
+      
+      {console.log(formData)}
+      
       <Link to={-1} className='btn back'>
         <FontAwesomeIcon icon={faCircleLeft} />
       </Link>
@@ -235,7 +259,6 @@ export function SendEmailPage() {
         <MessageBox
           formData={formData}
           squareNumbers={squareNumbers}
-          onChangeInput={onChangeInput}
           onChangeEmailBox={onChangeEmailBox}
           calculateTotalAmount={calculateTotalAmount}
         />
@@ -248,7 +271,7 @@ export function SendEmailPage() {
 
           <button className='btn' onClick={convertToPdfAndDownload}>
             <FontAwesomeIcon icon={faDownload} />
-            Download to pdf nkar
+            Download to pdf
           </button>
 
           <button className='btn' onClick={() => setShowModal(true)}>

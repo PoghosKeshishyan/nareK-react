@@ -2,7 +2,6 @@
     position: absolute;
     top: 100%;
     left: 0;
-    width: 130%;
     background-color: var(--white);
     border: 1px solid var(--slate-300);
     box-shadow: 0px 2px 4px var(--alpha-slate);
@@ -19,13 +18,13 @@
 
 .ContextMenu ul li {
     text-align: left;
+    margin: 0 10px;
     padding: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     font-size: 1rem;
-    font-family: 'Lucida Sans';
+    border-radius: 10px;
     color: var(--slate-700);
-    border-bottom: 1px solid var(--slate-200);
+    transition: background-color 0.3s ease;
 }
 
 .ContextMenu ul li:hover {

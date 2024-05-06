@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { ContextMenu } from './ContextMenu';
-import { API_URL } from '../config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolder, faFileLines, faArrowLeft, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 export function FileSystem({
     files,
-    images,
     handlerFile,
     activeFileId,
     keyDownActive,
@@ -64,7 +64,7 @@ export function FileSystem({
             {
                 files.path && (
                     <div className='previous' onClick={() => previousFolderHandler(files.path)}>
-                        <i className='fa-solid fa-arrow-left'></i>
+                        <FontAwesomeIcon icon={faArrowLeft} />
                     </div>
                 )
             }
@@ -72,7 +72,6 @@ export function FileSystem({
             {
                 !files.files?.length && (
                     <div className='empty_folder'>
-                        <img src={`${API_URL}${images['empty-folder']}`} alt='empty-folder' />
                         <p>Folder is empty</p>
                     </div>
                 )
@@ -92,9 +91,9 @@ export function FileSystem({
                         >
                             {
                                 file.dir ? (
-                                    <img src={`${API_URL}${images.folder}`} alt='folder' />
+                                    <FontAwesomeIcon icon={faFolder} className='folder' />
                                 ) : (
-                                    <img src={`${API_URL}${images.file}`} alt='folder' className='file' />
+                                    <FontAwesomeIcon icon={faFileLines} className='file' />
                                 )
                             }
 
@@ -109,15 +108,7 @@ export function FileSystem({
                                         />
                                     </form>
                                 ) : (
-                                    <>
-                                        {
-                                            file.name.length > 15
-                                                ?
-                                                <p>{file.name.slice(0, 15)}...</p>
-                                                :
-                                                <p>{file.name}</p>
-                                        }
-                                    </>
+                                    <p>{file.name}</p>
                                 )
                             }
 
@@ -139,13 +130,17 @@ export function FileSystem({
                 }
             </div>
 
-            <button className='btn' onClick={addFolderHandler}>+ Add folder</button>
+            <button className='btn' onClick={addFolderHandler}>
+                <FontAwesomeIcon icon={faCirclePlus} />
+                Add folder
+            </button>
 
             {
                 files.path && (
-                    <label className='file-upload-container' htmlFor='file-upload'>
-                        <span className='btn'>+ Add file</span>
-                        <input type='file' accept='*/*' id='file-upload' onChange={addFileHandler} />
+                    <label className='file-upload-container btn' htmlFor='file-upload'>
+                        <FontAwesomeIcon icon={faCirclePlus} />
+                        Add file
+                        <input type='file' id='file-upload' onChange={addFileHandler} />
                     </label>
                 )
             }

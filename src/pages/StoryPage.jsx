@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from '../axios';
 
 export function StoryPage() {
@@ -13,7 +15,7 @@ export function StoryPage() {
   }, [])
 
   const loadingData = async () => {
-    // selected year
+    // loading selected year
     let year = sessionStorage.getItem('Year');
 
     if (!year) {
@@ -22,11 +24,20 @@ export function StoryPage() {
 
     setSelectedYear(year);
 
-    const responseStory = await axios.get(`story/${year}`);
-    setStory(responseStory.data);
-
+    // years
     const responseYears = await axios.get('year');
     setYears(responseYears.data);
+
+    // stories 
+    const responseStory = (await axios.get(`story/${year}`)).data;
+    const mixedResponseStory = [];
+
+    for (const elem of responseStory) {
+      const responseParent = (await axios.get(`parent/${elem.parent_id}`)).data;
+      mixedResponseStory.push({ ...elem, parent_name: responseParent.name });
+    }
+
+    setStory(mixedResponseStory);
   }
 
   const calculateTotalAmount = () => {
@@ -48,7 +59,13 @@ export function StoryPage() {
 
   return (
     <div className='StoryPage'>
-      <Link to={-1} className='btn profile'>Profile</Link>
+      <Link to='/' className='btn home'>
+        <FontAwesomeIcon icon={faHouse} />
+      </Link>
+
+      <Link to={-1} className='btn back'>
+        <FontAwesomeIcon icon={faCircleLeft} />
+      </Link>
 
       <table>
         <thead>
@@ -58,7 +75,9 @@ export function StoryPage() {
             <th>Payment date</th>
             <th>Payment amount</th>
           </tr>
+        </thead>
 
+        <tbody>
           {
             story.map((elem, index) => (
               <tr key={elem.id}>
@@ -70,16 +89,16 @@ export function StoryPage() {
             ))
           }
 
-          <tr>
-            <td className='total' colSpan={3}>Total amount:</td>
+          <tr className='total'>
+            <td colSpan={3}>Total amount:</td>
             <td className='total_amount'>{calculateTotalAmount()}</td>
           </tr>
-        </thead>
+        </tbody>
       </table>
 
       <div className='years'>
-        <button 
-          className='years_title btn' 
+        <button
+          className='years_title btn'
           onClick={() => setShowYearsContainer(!showYearsContainer)}
         >
           {selectedYear}

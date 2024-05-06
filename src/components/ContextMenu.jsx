@@ -21,15 +21,15 @@ export const ContextMenu = forwardRef((props, ref) => {
     <div ref={ref} className='ContextMenu'>
       <ul>
         <li onClick={handlerFile}>
-          Open file location
+          Open location
         </li>
 
         <li onClick={handlerDelete}>
-          Delete file
+          Delete
         </li>
 
         <li onClick={handlerRename}>
-          Rename file name
+          Rename
         </li>
       </ul>
     </div>

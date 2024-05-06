@@ -37,6 +37,7 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
         discharge: '-',
         number_of_hours: '',
         cost_for_per_hour: '$',
+        cost_for_extended_minutes: '$',
         enrollment: today,
     });
 
@@ -52,8 +53,12 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
             return alert('Number of hours must be a number greater than 0.');
         }
 
-        if (!formData.birth || formData.cost_for_per_hour === '$') {
-            return;
+        if (
+            !formData.birth || 
+            formData.cost_for_per_hour === '$' ||
+            formData.cost_for_extended_minutes === '$'
+        ) {
+            return alert('All fields are required.');
         }
 
         if (formData.cost_for_per_hour[0] !== '$') {
@@ -62,6 +67,12 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
             formData.cost_for_per_hour = arr.join('');
         }
 
+        if (formData.cost_for_extended_minutes[0] !== '$') {
+            let arr = formData.cost_for_extended_minutes.split('');
+            arr.unshift('$');
+            formData.cost_for_extended_minutes = arr.join('');
+        }
+        
         setLoading(true);
 
         await axios.post('children/add', formData)
@@ -82,7 +93,7 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
 
             <form onSubmit={submitHandler}>
                 <h2 className='title'>
-                    Add child
+                    Add client
 
                     <span className='close_modal' onClick={() => setShowModal(false)}>
                         &times;
@@ -121,6 +132,18 @@ export function ModalAddChild({ id, setShowModal, loadingData }) {
                         name='cost_for_per_hour'
                         required
                         value={formData.cost_for_per_hour}
+                        onChange={onChangeInput}
+                    />
+                </div>
+
+                <div className='form_item'>
+                    <p>Cost for extended minutes:</p>
+
+                    <input
+                        type='text'
+                        name='cost_for_extended_minutes'
+                        required
+                        value={formData.cost_for_extended_minutes}
                         onChange={onChangeInput}
                     />
                 </div>

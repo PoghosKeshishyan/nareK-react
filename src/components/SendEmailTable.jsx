@@ -1,4 +1,4 @@
-export function SendEmailTable({ child, isLastIteration, calculateTotalAmount, onChangeInput }) {
+export function SendEmailTable({ child, isLastIteration, calculateTotalAmount }) {
     return (
         <table className="SendEmailTable">
             <thead>
@@ -15,54 +15,19 @@ export function SendEmailTable({ child, isLastIteration, calculateTotalAmount, o
             <tbody>
                 <tr>
                     <th>Weekly Attendance</th>
-                    <td>
-                        <input
-                            type='text'
-                            name='number_of_weeks'
-                            value={child.number_of_weeks}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
+                    <td>{child.number_of_weeks}</td>
                     <td>{child.total_days}</td>
                     <td>{child.total_time_in_week}</td>
-                    <td>
-                        <input
-                            type='text'
-                            name='cost_for_per_hour'
-                            value={child.cost_for_per_hour}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
+                    <td>{child.cost_for_per_hour}</td>
                     <td>{child.amount}</td>
                 </tr>
 
                 <tr>
-                    <th>Extended Hours</th>
-                    <td>
-                        <input
-                            type='text'
-                            name='number_of_weeks_extended'
-                            value={child.number_of_weeks_extended}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type='text'
-                            name='total_days_extended'
-                            value={child.total_days_extended}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
+                    <th>Extended minutes</th>
+                    <td>{child.number_of_weeks_extended}</td>
+                    <td>{child.total_days_extended}</td>
                     <td>{child.hours_count_extended}</td>
-                    <td>
-                        <input
-                            type='text'
-                            name='cost_for_per_hour_extended'
-                            value={child.cost_for_per_hour_extended}
-                            onChange={(e) => onChangeInput(e, child.id)}
-                        />
-                    </td>
+                    <td>{child.cost_for_per_hour_extended} (Per minute)</td>
                     <td>{child.amount_extended}</td>
                 </tr>
 

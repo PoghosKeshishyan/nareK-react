@@ -2,18 +2,9 @@
     margin: 150px 20px 0 20px;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     padding: 10px;
-}
-
-.ProfilePage .btn.home {
-    position: fixed;
-    z-index: 1001;
-    top: 5%;
-    right: 9.5%;
-    width: 80px;
-    text-align: center;
 }
 
 .ProfilePage .edit_zone {
@@ -21,37 +12,26 @@
     margin-bottom: 40px;
 }
 
-.ProfilePage .editProfile {
-    width: 500px;
-}
-
 .ProfilePage .editProfile form {
     text-align: end;
 }
 
 .ProfilePage .editProfile form .inputBox {
+    margin: 10px 0;
     text-align: left;
-}
-
-.ProfilePage .editProfile form .inputBox:first-child {
     border-bottom: 1px solid var(--slate-300);
-}
-
-.ProfilePage .editProfile form .inputBox:nth-child(2) {
-    padding-top: 10px;
 }
 
 .ProfilePage .editProfile form .inputBox p {
     font-size: 1.2rem;
     font-weight: 500;
-    font-family: 'Segoe UI';
+    font-style: italic;
 }
 
 .ProfilePage .editProfile form .inputBox input[type=text] {
     width: 100%;
     padding: 10px 0;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .ProfilePage .editProfile form .inputBox input[type='file'] {
@@ -71,35 +51,30 @@
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
-    background-color: var(--sky);
-    font-family: 'Segoe UI';
+    background: var(--blue);
+
+    &:hover {
+        opacity: .8;
+    }
+
+    &:active {
+        background: var(--blue-2);
+    }
 }
 
 .ProfilePage .editProfile form .inputBox .image-upload-label {
     margin-left: 10px;
 }
 
-.ProfilePage .editProfile form .inputBox .image-name-text {
-    display: block;
-    margin-top: 5px;
-    font-size: 12px;
-}
-
-.ProfilePage .editProfile form .btn {
-    margin-top: 10px;
-    font-size: 1rem;
-}
-
 .ProfilePage .editProvider {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid var(--slate-300);
 }
 
 .ProfilePage .editProvider p {
     font-size: 1.2rem;
     font-weight: 500;
-    font-family: 'Segoe UI';
+    font-style: italic;
 }
 
 .ProfilePage .editProvider form {
@@ -116,83 +91,17 @@
 .ProfilePage .editProvider form table th, 
 .ProfilePage .editProvider form table td {
     text-align: left;
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 10px 20px;
     border-collapse: collapse;
 }
 
 .ProfilePage .editProvider form table tr:nth-child(odd) {
-    background-color: var(--yellow);
+    background: var(--slate-300);
 }
 
 .ProfilePage .editProvider form table input {
     width: 100%;
-    font-weight: bold;
-    font-size: 1.2rem;
-    background: none;
-}
-
-.ProfilePage .Folders {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 3rem;
-    margin-bottom: 100px;
-    width: 700px;
-}
-
-.ProfilePage .Folders .folder {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8px;
-    width: 130px;
-    position: relative;
-}
-
-.ProfilePage .Folders .folder .delete_file {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 999;
-    width: 22px;
-    height: 22px;
-    margin: 0;
-    padding: 0;
-    line-height: 22px;
-    font-size: 1.5rem;
-    color: var(--white);
-    -webkit-text-stroke: 1px;
-    border-radius: 50%;
-    background: var(--red);
-}
-
-.ProfilePage .Folders .folder img:hover {
-    opacity: .6;
-}
-
-.ProfilePage .Folders .folder.active {
-    background: var(--sky);
-}
-
-.ProfilePage .Folders .folder.active p {
-    color: var(--white);
-}
-
-.ProfilePage .Folders .folder input {
-    width: 120px;
-    margin-top: 20px;
-    text-align: center;
     font-size: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.ProfilePage .Folders .folder p {
-    margin-top: 20px;
-    cursor: pointer;
-    color: var(--sky);
-    font-family: Arial, Helvetica, sans-serif;
+    background: none; 
 }

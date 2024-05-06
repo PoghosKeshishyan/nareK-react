@@ -1,58 +1,53 @@
 .StoryPage {
     margin: 150px 50px;
     display: flex;
-    align-items: flex-start;
-}
-
-.StoryPage .btn.profile {
-    position: fixed;
-    z-index: 1001;
-    top: 5%;
-    right: 9.5%;
-    width: 80px;
-    text-align: center;
 }
 
 .StoryPage table {
-    width: 700px;
+    width: 750px;
     border-collapse: collapse;
     margin-right: 5rem;
-    margin-bottom: 20px;
+}
+
+.StoryPage table thead tr {
+    border-bottom: 1px solid var(--slate-700);
 }
 
 .StoryPage table th,
 .StoryPage table td {
-    font-family: Arial, Helvetica, sans-serif;
-    border: 1px solid var(--slate-700);
+    border-left: 1px solid var(--slate-300);
     padding: 8px;
+    font-size: 1.1rem;
     text-align: center;
 }
 
-.StoryPage table td:nth-child(2):not(:last-child) {
-    text-align: left;
+.StoryPage table th:first-child,
+.StoryPage table td:first-child {
+    border: none;
 }
 
-.StoryPage table .total {
+.StoryPage table tbody tr:nth-child(odd) {
+    background: var(--slate-200);
+}
+
+.StoryPage table tbody tr.total {
     text-align: left;
     font-weight: bold;
 }
 
-.StoryPage table .total_amount {
-    font-weight: bold;
+.StoryPage table tbody tr.total td:first-child {
+    text-align: left;
 }
 
-.StoryPage table th {
+.StoryPage table tbody tr:hover {
     background-color: var(--slate-300);
-
 }
 
-.StoryPage tr:hover {
-    background-color: var(--light-yellow);
-}
 
+/* ============================ years ============================ */
 .StoryPage .years {
-    background: lightgoldenrodyellow;
     position: relative;
+    user-select: none;
 }
 
 .StoryPage .years .years_title {
@@ -60,25 +55,24 @@
 }
 
 .StoryPage .years .years_container {
-    background: red;
-    user-select: none;
     position: absolute;
-    top: 120%;
+    top: 30%;
     left: 0;
-    width: 350px;
     padding: 15px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: .5rem;
     border: 1px solid;
-    background: var(--light-yellow);
+    text-align: center;
+    background: var(--slate-200);
+    border-radius: 10px;
     box-shadow: .1rem .2rem .5rem var(--slate-700);
 }
 
 .StoryPage .years .years_container p {
-    padding: 5px;
-    font-size: 1.3rem;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px 8px;
+    border-radius: 8px;
+    font-size: 1.2rem;
 }
 
 .StoryPage .years .years_container p:hover {
