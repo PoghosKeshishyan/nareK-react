@@ -219,6 +219,7 @@ export function SendEmailPage() {
         });
     } catch (error) {
       alert(error.message);
+      setLoading(false);
     }
   }
 
@@ -244,8 +245,6 @@ export function SendEmailPage() {
       <Link to='/' className='btn home'>
         <FontAwesomeIcon icon={faHouse} />
       </Link>
-      
-      {console.log(formData)}
       
       <Link to={-1} className='btn back'>
         <FontAwesomeIcon icon={faCircleLeft} />
