@@ -123,7 +123,7 @@ export function SendEmailPage() {
         return { ...child, ...objData, ...currentChild };
       }));
 
-      const message1 = 'Dear parent, we kindly request that you make a payment in accordance with the details provided in this bill.';
+      const message1 = 'Dear Parent, we kindly ask you to make a payment according to the details outlined in this bill.';
       const message2 = `Kind regards, \n${responseProvider.data[0].name}`;
 
       setFormData({
